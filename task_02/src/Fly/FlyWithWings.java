@@ -1,3 +1,5 @@
+package Fly;
+
 import java.util.Random;
 
 public class FlyWithWings implements FlyBehavior {

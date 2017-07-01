@@ -1,3 +1,5 @@
+package Fly;
+
 public class FlyNoWings implements FlyBehavior {
     @Override
     public int fly() {

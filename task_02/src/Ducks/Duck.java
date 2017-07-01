@@ -1,3 +1,7 @@
+package Ducks;
+
+import Fly.FlyBehavior;
+
 public abstract class Duck {
     private FlyBehavior flyBehavior;
     private int positionOnTrack = 0;

@@ -1,3 +1,7 @@
+package Ducks;
+
+import Fly.FlyWithWings;
+
 public class RedHeadDuck extends Duck {
     public RedHeadDuck() {
         setFlyBehavior(new FlyWithWings());
@@ -5,7 +9,7 @@ public class RedHeadDuck extends Duck {
 
     @Override
     public void display() {
-//        System.out.println("I'm from"+getClass().toString());
+        System.out.println("I'm from" + getClass().toString());
     }
 }
 

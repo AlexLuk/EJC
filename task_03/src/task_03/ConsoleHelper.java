@@ -15,6 +15,7 @@ public class ConsoleHelper {
     private static final int COORD_TO_INDEX = -1;
     private int dimensions;
     private int fieldSize;
+    private int numOfCells;
 
 
     private Scanner playerInputScanner = new Scanner(System.in);
@@ -22,6 +23,7 @@ public class ConsoleHelper {
     public ConsoleHelper(int dimensions, int fieldSize) {
         this.dimensions = dimensions;
         this.fieldSize = fieldSize;
+        numOfCells=(int)Math.pow(fieldSize,dimensions);
     }
 
     /**

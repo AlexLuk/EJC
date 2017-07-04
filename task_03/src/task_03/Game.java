@@ -1,6 +1,7 @@
 package task_03;
 
 public class Game {
+    private static final int[] SHIPS_BY_SIZE={4,3,2,1};
     private Field field;
     private ConsoleHelper consoleHelper;
     private Player player;
@@ -14,6 +15,7 @@ public class Game {
 
     boolean setupGame() {
         field = new Field(dimensions,fieldSize);
+
         consoleHelper = new ConsoleHelper(field.getDimensions(),field.getSize());
         player = new Player();
         return true;

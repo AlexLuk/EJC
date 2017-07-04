@@ -1,3 +1,5 @@
+package task_02;
+
 import Game.Game;
 
 public class Main {

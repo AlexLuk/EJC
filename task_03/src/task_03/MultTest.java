@@ -5,9 +5,10 @@ public class MultTest {
         MultiDimensionArray multiDimensionArray = new MultiDimensionArray(2, 2);
         int i = 0;
         int[] coords = {i, i};
+        Cell exCell = new Cell(Cell.CellValue.EMPTY,5);
         System.out.println("cooords " + i);
         System.out.println(multiDimensionArray.getCellByCoords(coords));
-        System.out.println(multiDimensionArray.getNeighborCells(coords));
+        System.out.println(multiDimensionArray.getNeighborCells(coords,exCell));
         multiDimensionArray.printField();
 //        for (int i = 0; i < 4; i++) {
 //            int[] coords = {i,i};

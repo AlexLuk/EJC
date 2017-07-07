@@ -5,13 +5,14 @@ public class Cell {
         return value;
     }
 
-    public String testNum;
+    public int testNum;
 
     private CellValue value;
     private Ship shipPointer;
 
-    public Cell(CellValue cellValue) {
+    public Cell(CellValue cellValue,int testNum) {
         this.value =cellValue;
+        this.testNum = testNum;
     }
 
     @Override
@@ -31,8 +32,29 @@ public class Cell {
 //                retunString="?";
 //        }
 //        return retunString;
-        return testNum;
+        return String.valueOf(testNum);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Cell cell = (Cell) o;
+
+        if (testNum != cell.testNum) return false;
+        if (value != cell.value) return false;
+        return shipPointer != null ? shipPointer.equals(cell.shipPointer) : cell.shipPointer == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = testNum;
+        result = 31 * result + value.hashCode();
+        result = 31 * result + (shipPointer != null ? shipPointer.hashCode() : 0);
+        return result;
+    }
+
 
     public enum CellValue {EMPTY, SHIP, DAMAGE, SHOT}
 }

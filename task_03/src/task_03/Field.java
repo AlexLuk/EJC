@@ -23,7 +23,7 @@ public class Field {
 
     private void initializeField() {
         for (int i = 0; i < numOfCells; i++) {
-            cells.add(new Cell(Cell.CellValue.EMPTY));
+            cells.add(new Cell(Cell.CellValue.EMPTY,i));
         }
     }
 

@@ -21,6 +21,7 @@ public class Game {
         field = new MultiDimensionArray(dimensions,fieldSize);
         ships = new ArrayList<Ship>();
         initializeShips();
+        field.addShips(ships);
         consoleHelper = new ConsoleHelper(field.getNumOfDimensions(),field.getSize());
         player = new Player();
         return true;

@@ -1,6 +1,7 @@
 package task_03;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class MultiDimensionArray {
@@ -17,74 +18,77 @@ public class MultiDimensionArray {
 
     public void printField() {
         for (int i = 0; i < cells.size(); i++) {
+            String printSymbol;
             if (i % size == 0) {
                 System.out.println();
-            } else {
-                String printSymbol;
-                switch (cells.get(i).getValue()) {
-                    case SHOT:
-                        printSymbol = "o";
-                        break;
-                    case EMPTY:
-                        printSymbol = "?";
-                        break;
-                    case DAMAGE:
-                        printSymbol = "#";
-                        break;
-                    default:
-                        printSymbol = "?";
-                }
-                System.out.print(" " + printSymbol);
             }
+            switch (cells.get(i).getValue()) {
+                case SHIP:
+                    printSymbol = "S";
+                    break;
+                case SHOT:
+                    printSymbol = "o";
+                    break;
+                case EMPTY:
+                    printSymbol = "?";
+                    break;
+                case DAMAGE:
+                    printSymbol = "#";
+                    break;
+                default:
+                    printSymbol = "?";
+            }
+            //printSymbol = cells.get(i).testNum + "";
+            System.out.print(" " + printSymbol);
+
         }
     }
 
+
     public boolean addShips(ArrayList<Ship> ships) {
         for (int i = 0; i < ships.size(); i++) {
-            addShip(new Ship(i));
+            addShip(ships.get(i));
         }
         return true;
     }
 
     public boolean addShip(Ship ship) {
-        boolean isAddedSuccesfully = false;
-        int shipLength = ship.getSize();
-        int[] startCoords = new int[numOfDimensions];
-        int dimensionAxis = new Random().nextInt(numOfDimensions);
-        int axisDirection = new Random().nextInt(1) - 2;
-        ArrayList<Cell> shipCells = new ArrayList<>(shipLength);
+        //get start coords;
+        int[] shipCoord = new int[numOfDimensions];
+        //get axis
+        int shipAxis = new Random().nextInt(numOfDimensions);
+        //get direction
+        int direction = 1 - new Random().nextInt(2);
         for (int i = 0; i < numOfDimensions; i++) {
-            startCoords[i] = new Random().nextInt(size);
+            shipCoord[i] = new Random().nextInt(size-1);
         }
-
-
-        Cell cell = getCellByCoords(startCoords);
-        if (cell != null && cell.getValue() == Cell.CellValue.EMPTY) {
-            shipCells.add(cell);
-        }
-
-
-        int[] nextCoords = startCoords.clone();
-        for (int i = 1; i < shipLength; i++) {
-            nextCoords[dimensionAxis] += axisDirection;
-            cell = getCellByCoords(nextCoords);
-            if (cell != null && cell.getValue() == Cell.CellValue.EMPTY) {
-                shipCells.add(cell);
+        //get start cell
+        Cell shipCell = getCellByCoords(shipCoord);
+        System.out.println(Arrays.toString(shipCoord));
+        System.out.println(shipCell);
+        //check for cell validity
+        if (shipCell.getValue() == Cell.CellValue.EMPTY) {
+            boolean isNeighborCellsEmpty = true;
+            ArrayList<Cell> neighborCells = getNeighborCells(shipCoord, ship.getShipCells());
+            for (Cell cell : neighborCells) {
+                if (cell.getValue() != Cell.CellValue.EMPTY) {
+                    isNeighborCellsEmpty = false;
+                    break;
+                }
+            }
+            if (isNeighborCellsEmpty) {
+                ship.addCell(shipCell);
+                //new ship coords
+                shipCoord[shipAxis] = shipCoord[shipAxis] + direction;
             }
         }
-        while (!isAddedSuccesfully) {
-
-//            int startIndex = new Random().nextInt(numOfCells);
-//            Cell.CellValue startCellValue = cells.get(startIndex).getValue();
-//            if (startCellValue != Cell.CellValue.EMPTY) {
-//                continue;
-//            }
-//            int direction = new Random().nextBoolean() ? -1 : 1;
-//            boolean isHorisontal = new Random().nextBoolean();
-//            if (isHorisontal) {
-//
-//            }
+        for (Cell cell: ship.getShipCells()){
+            cell.setShipPointer(ship);
+            cell.setValue(Cell.CellValue.SHIP);
         }
+        //go to next start coords
+        //clear ship cells
+
         return true;
     }
 
@@ -101,7 +105,7 @@ public class MultiDimensionArray {
         cells = new ArrayList<Cell>(numOfCells);
         Cell cell;
         for (int i = 0; i < numOfCells; i++) {
-            cell = new Cell(Cell.CellValue.EMPTY,i);
+            cell = new Cell(Cell.CellValue.EMPTY, i);
             cells.add(cell);
         }
     }
@@ -122,7 +126,7 @@ public class MultiDimensionArray {
 
     public Cell getCellByCoords(int[] coords) {
         int cellIngex = getCellIndexByCoords(coords);
-        if (cellIngex > 0) {
+        if (cellIngex >-1) {
             return cells.get(cellIngex);
         } else {
             return null;
@@ -148,10 +152,11 @@ public class MultiDimensionArray {
      * @param coords
      * @return
      */
-    public ArrayList<Cell> getNeighborCells(int[] coords, Cell excludeCell) {
+    public ArrayList<Cell> getNeighborCells(int[] coords, ArrayList<Cell> excludeCell) {
         ArrayList<Cell> neighborCells = new ArrayList();
         if (doesCellExist(coords)) {
-            for (int i = 0; i < numOfDimensions; i++) {
+            for (int i = 0; i < 0; i++) {
+//            for (int i = 0; i < numOfDimensions; i++) {
                 int[] tempCoords = coords.clone();
                 int dimPlusCoord = coords[i] + 1;
                 int dimMinusCoord = coords[i] - 1;
@@ -159,15 +164,29 @@ public class MultiDimensionArray {
 
                 tempCoords[i] = dimPlusCoord;
                 cellToAdd = getCellByCoords(tempCoords);
-                if (cellToAdd != null && !cellToAdd.equals(excludeCell)) neighborCells.add(getCellByCoords(tempCoords));
+                boolean isCellInExcluded = isCellInExcluded(excludeCell, cellToAdd);
+                if (cellToAdd != null && !isCellInExcluded) neighborCells.add(getCellByCoords(tempCoords));
 
                 tempCoords[i] = dimMinusCoord;
                 cellToAdd = getCellByCoords(tempCoords);
-                if (cellToAdd != null && !cellToAdd.equals(excludeCell)) neighborCells.add(getCellByCoords(tempCoords));
+                isCellInExcluded = isCellInExcluded(excludeCell, cellToAdd);
+                if (cellToAdd != null && !isCellInExcluded) neighborCells.add(getCellByCoords(tempCoords));
             }
             return neighborCells;
         } else {
             return null;
         }
+    }
+
+    private boolean isCellInExcluded(ArrayList<Cell> excludeCell, Cell cellToAdd) {
+        boolean isCellInExcluded = false;
+        for (Cell cell : excludeCell) {
+            System.out.println(cell + " " + cellToAdd + cellToAdd.equals(excludeCell));
+            if (cellToAdd.equals(cell)) {
+                isCellInExcluded = true;
+                break;
+            }
+        }
+        return isCellInExcluded;
     }
 }

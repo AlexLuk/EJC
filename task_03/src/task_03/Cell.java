@@ -7,7 +7,16 @@ public class Cell {
 
     public int testNum;
 
+    public void setValue(CellValue value) {
+        this.value = value;
+    }
+
     private CellValue value;
+
+    public void setShipPointer(Ship shipPointer) {
+        this.shipPointer = shipPointer;
+    }
+
     private Ship shipPointer;
 
     public Cell(CellValue cellValue,int testNum) {
@@ -42,19 +51,13 @@ public class Cell {
 
         Cell cell = (Cell) o;
 
-        if (testNum != cell.testNum) return false;
-        if (value != cell.value) return false;
-        return shipPointer != null ? shipPointer.equals(cell.shipPointer) : cell.shipPointer == null;
+        return testNum == cell.testNum;
     }
 
     @Override
     public int hashCode() {
-        int result = testNum;
-        result = 31 * result + value.hashCode();
-        result = 31 * result + (shipPointer != null ? shipPointer.hashCode() : 0);
-        return result;
+        return testNum;
     }
-
 
     public enum CellValue {EMPTY, SHIP, DAMAGE, SHOT}
 }

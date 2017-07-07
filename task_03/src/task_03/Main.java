@@ -1,12 +1,12 @@
 package task_03;
 
 public class Main {
-    private static int dimensions=2;
-    private static int fieldSize=10;
+    private final static int DIMENSIONS =2;
+    private final static int FIELD_SIZE =3;
 
 
     public static void main(String[] args) {
-        Game seaBattle = new Game(dimensions,fieldSize);
+        Game seaBattle = new Game(DIMENSIONS, FIELD_SIZE);
         seaBattle.setupGame();
         seaBattle.runGame();
     }

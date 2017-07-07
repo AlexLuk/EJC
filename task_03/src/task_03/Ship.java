@@ -12,10 +12,34 @@ public class Ship {
     }
 
     private int size=0;
+
+    public ArrayList<Cell> getShipCells() {
+        return shipCells;
+    }
+
     private  ArrayList<Cell> shipCells;
 
     public Ship(int size) {
         this.size = size;
         shipCells=new ArrayList<Cell>(size);
+    }
+
+    public boolean addCell(Cell cell){
+        shipCells.add(cell);
+        return true;
+    }
+
+    public boolean clearShipCells(){
+        shipCells.clear();
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Ship{" +
+                "isDestroed=" + isDestroed +
+                ", size=" + size +
+                ", shipCells=" + shipCells +
+                '}';
     }
 }

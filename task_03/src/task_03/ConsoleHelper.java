@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 public class ConsoleHelper {
     private static final String GREETING_TEXT = "GREETING_TEXT";
+    private static final String SETUP_FAILED = "Game setup failed";
+    private static final String SHIP_CREATION_FAILED = "Ship creation failed";
     private static final String ASK_INPUT_TEXT1 = "Please input ";
     private static final String ASK_INPUT_TEXT2 = " values from 1 to ";
     private static final String DEFAULT_TEXT = "SOME DEFAULT TEXT";
@@ -19,6 +21,10 @@ public class ConsoleHelper {
 
 
     private Scanner playerInputScanner = new Scanner(System.in);
+
+    public void setupFailed(){
+        printText(SETUP_FAILED);
+    }
 
     public ConsoleHelper(int dimensions, int fieldSize) {
         this.dimensions = dimensions;

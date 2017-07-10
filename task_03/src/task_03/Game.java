@@ -21,11 +21,14 @@ public class Game {
     boolean setupGame() {
         field = new MultiDimensionArray(fieldSize,dimensions);
         ships = new ArrayList<Ship>();
+        consoleHelper = new ConsoleHelper(field.getNumOfDimensions(),field.getSize());
         initializeShips();
-        field.addShips(ships);
+        if(!field.addShips(ships)){
+            consoleHelper.setupFailed();
+            return false;
+        }
         System.out.println("ships after add");
         printShips();
-        consoleHelper = new ConsoleHelper(field.getNumOfDimensions(),field.getSize());
         player = new Player();
         return true;
     }

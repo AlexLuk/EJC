@@ -1,11 +1,9 @@
 package task_03;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Scanner;
 
-public class ConsoleHelper {
+public class ConsoleHelper_backup {
     private static final String GREETING_TEXT = "GREETING_TEXT";
     private static final String SETUP_FAILED = "Game setup failed";
     private static final String SHIP_CREATION_FAILED = "Ship creation failed";
@@ -22,12 +20,16 @@ public class ConsoleHelper {
     private int numOfCells;
 
 
-    private BufferedReader playerInputScanner = null;
+    private Scanner playerInputScanner = new Scanner(System.in);
 
-    public ConsoleHelper(int dimensions, int fieldSize) {
+    public void setupFailed(){
+        printText(SETUP_FAILED);
+    }
+
+    public ConsoleHelper_backup(int dimensions, int fieldSize) {
         this.dimensions = dimensions;
         this.fieldSize = fieldSize;
-        numOfCells = (int) Math.pow(fieldSize, dimensions);
+        numOfCells=(int)Math.pow(fieldSize,dimensions);
     }
 
     /**
@@ -44,50 +46,33 @@ public class ConsoleHelper {
         return true;
     }
 
-    public void setupFailed() {
-        printText(SETUP_FAILED);
-    }
-
     void printGreeting() {
         printText(GREETING_TEXT);
     }
 
     /**
      * Get user input and parse it to coordinates. Validate number, format and value of coordinates.
-     *
      * @return
      */
     ArrayList<Integer> getCoordsInput() {
         ArrayList<Integer> coords = new ArrayList<Integer>();
         boolean isPlayerInputAcceptable = false;
-
-        try {
-            playerInputScanner = new BufferedReader(new InputStreamReader(System.in));
-            while (!isPlayerInputAcceptable) {
-                System.out.println(ASK_INPUT_TEXT1 + dimensions + ASK_INPUT_TEXT2 + (fieldSize));
-                String userInputString = playerInputScanner.readLine();
-                try {
-                    coords = parseString(userInputString);
-                    if (areDimensionsValid(coords)) {
-                        if (areCoordsValid(coords)) {
-                            isPlayerInputAcceptable = true;
-                        } else {
-                            System.out.println(WRONG_COORD_VALUE);
-                        }
-                    } else {
-                        System.out.println(WRONG_DINENSIONS_NUMBER);
-                    }
-                } catch (NumberFormatException nfe) {
-                    System.out.println(WRONG_NUMBER_FORMAT_TEXT);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+        while (!isPlayerInputAcceptable) {
+            System.out.println(ASK_INPUT_TEXT1 + dimensions + ASK_INPUT_TEXT2 + (fieldSize));
+            String userInputString = playerInputScanner.nextLine();
             try {
-                playerInputScanner.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+                coords = parseString(userInputString);
+                if (areDimensionsValid(coords)){
+                    if (areCoordsValid(coords)){
+                        isPlayerInputAcceptable=true;
+                    }else{
+                        System.out.println(WRONG_COORD_VALUE);
+                    }
+                }else{
+                    System.out.println(WRONG_DINENSIONS_NUMBER);
+                }
+            } catch (NumberFormatException nfe) {
+                System.out.println(WRONG_NUMBER_FORMAT_TEXT);
             }
         }
         return coords;
@@ -104,7 +89,7 @@ public class ConsoleHelper {
 
     private boolean areCoordsValid(ArrayList<Integer> coords) {
         for (Integer coord : coords) {
-            if ((int) coord > fieldSize - 1 || coord < 0) {
+            if ((int) coord > fieldSize -1 ||coord<0) {
                 return false;
             }
         }
@@ -122,7 +107,7 @@ public class ConsoleHelper {
         String[] items = s.split(" ");
         for (int i = 0; i < items.length; i++) {
             try {
-                coords.add(Integer.parseInt(items[i]) + COORD_TO_INDEX);
+                coords.add(Integer.parseInt(items[i])+COORD_TO_INDEX);
             } catch (NumberFormatException nfe) {
                 throw nfe;
             }

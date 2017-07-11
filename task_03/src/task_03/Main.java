@@ -2,7 +2,7 @@ package task_03;
 
 public class Main {
     private final static int DIMENSIONS =2;
-    private final static int FIELD_SIZE =4;
+    private final static int FIELD_SIZE =10;
 
 
     public static void main(String[] args) {

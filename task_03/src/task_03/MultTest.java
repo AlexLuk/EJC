@@ -10,11 +10,11 @@ import java.util.HashSet;
 public class MultTest {
     public static void main(String[] args) {
         //public MultiDimensionArray(int size, int numOfDimensions) {
-        MultiDimensionArray multiDimensionArray = new MultiDimensionArray(4, 2);
+        MultiDimensionArray multiDimensionArray = new MultiDimensionArray(2, 4);
         ArrayList<Ship> ships=new ArrayList<>();
         ships.add(new Ship(2));
-        ships.add(new Ship(1));
-        ships.add(new Ship(1));
+//        ships.add(new Ship(2));
+//        ships.add(new Ship(1));
         int i = 1;
         int[] coords = {i, i};
 //        ArrayList<Cell> exCells = new ArrayList<>();

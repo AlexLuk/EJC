@@ -1,8 +1,8 @@
 package task_03;
 
 public class Main {
-    private final static int DIMENSIONS =2;
-    private final static int FIELD_SIZE =10;
+    private final static int DIMENSIONS =3;
+    private final static int FIELD_SIZE =5;
 
 
     public static void main(String[] args) {

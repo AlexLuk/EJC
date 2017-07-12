@@ -1,6 +1,7 @@
 package task_03;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class MultiDimensionArray {
@@ -19,8 +20,10 @@ public class MultiDimensionArray {
     public void printField() {
         for (int i = 0; i < cells.size(); i++) {
             String printSymbol;
-            if (i % size == 0) {
-                System.out.println();
+            for (int j = 1; j < numOfDimensions+1; j++) {
+                if (i % Math.pow(size,j) == 0&&i!=0) {
+                    System.out.println();
+                }
             }
             switch (cells.get(i).getValue()) {
                 case SHIP:
@@ -38,10 +41,10 @@ public class MultiDimensionArray {
                 default:
                     printSymbol = "?";
             }
-            //printSymbol = cells.get(i).testNum + "";
             System.out.print(" " + printSymbol);
-
         }
+        System.out.println();
+        System.out.println();
     }
 
 
@@ -73,53 +76,61 @@ public class MultiDimensionArray {
             //get axis
             int shipAxis = new Random().nextInt(numOfDimensions);
             //get direction
-            int direction = 1 - new Random().nextInt(2);
+            int direction = new Random().nextBoolean()?(-1):1;
             for (int i = 0; i < numOfDimensions; i++) {
                 shipCoord[i] = new Random().nextInt(size);
             }
             //get start cell
             Cell shipCell = null;
             //get cell by coords
-            shipCell = getCellByCoords(shipCoord);
-            //check for cell validity
 
-            if (shipCell.getValue() == Cell.CellValue.EMPTY) {
-                boolean isNeighborCellsEmpty = true;
-                ArrayList<int[]> neighborCellCoords = getNeighborCellsCoords(null, getCellCoordsByIndex(shipCell.testNum), 0);
-                ArrayList<Cell> neighborCells = getNeighborCells(neighborCellCoords, ship.getShipCells());
-                for (Cell cell : neighborCells) {
-                    if (cell.getValue() != Cell.CellValue.EMPTY) {
-                        isNeighborCellsEmpty = false;
+            while(!shipAdded) {
+//                System.out.println("shipCoord" + Arrays.toString(shipCoord));
+                shipCell = getCellByCoords(shipCoord);
+                //check for cell validity
+                if (shipCell!=null && shipCell.getValue() == Cell.CellValue.EMPTY) {
+                    boolean isNeighborCellsEmpty = true;
+                    ArrayList<int[]> neighborCellCoords = getNeighborCellsCoords(null, getCellCoordsByIndex(shipCell.testNum), 0);
+                    ArrayList<Cell> neighborCells = getNeighborCells(neighborCellCoords, ship.getShipCells());
+                    isNeighborCellsEmpty = isNeighborCellsEmpty(isNeighborCellsEmpty, neighborCells);
+                    if (isNeighborCellsEmpty) {
+                        ship.addCell(shipCell);
+//                        shipCell.setValue(Cell.CellValue.SHIP);
+                        shipLengthCounter--;
+                        //next shipCell coords
+                        if (shipLengthCounter == 0) {
+                            shipAdded = true;
+                            for (Cell cell : ship.getShipCells()) {
+                                cell.setShipPointer(ship);
+                                cell.setValue(Cell.CellValue.SHIP);
+                            }
+                        } else {
+                            //return to get cell by coords
+                            shipCoord[shipAxis] = shipCoord[shipAxis] + direction;
+//                            System.out.println(direction);
+                        }
+                    } else {
                         break;
                     }
-                }
-                if (isNeighborCellsEmpty) {
-                    ship.addCell(shipCell);
-                    shipLengthCounter--;
-                    //next shipCell coords
-                    if (shipLengthCounter == 0) {
-                        shipAdded = true;
-                        for (Cell cell : ship.getShipCells()) {
-                            cell.setShipPointer(ship);
-                            shipCell.setValue(Cell.CellValue.SHIP);
-                        }
-                        System.out.println(shipAddTry);
-                    } else {
-                        //return to get cell by coords
-                        shipCoord[shipAxis] = shipCoord[shipAxis] + direction;
-                    }
-
                 } else {
-                    continue;
+                    break;
                 }
-            } else {
-                continue;
             }
         } while (!shipAdded);
 
         //markNeighborCells(ship);
 
         return true;
+    }
+
+    private boolean isNeighborCellsEmpty(boolean isNeighborCellsEmpty, ArrayList<Cell> neighborCells) {
+        for (Cell cell : neighborCells) {
+            if (cell.getValue() != Cell.CellValue.EMPTY) {
+                isNeighborCellsEmpty = false;
+                break;
+            }
+        }
+        return isNeighborCellsEmpty;
     }
 
     private void markNeighborCells(Ship ship) {

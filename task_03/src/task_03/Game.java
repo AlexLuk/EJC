@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Game {
     private static final int[] SHIPS_BY_SIZE = {4, 3, 2, 1};
-    //private static final int[] SHIPS_BY_SIZE={4};
+//    private static final int[] SHIPS_BY_SIZE={4};
     private MultiDimensionArray field;
     private MultiDimensionArray computerField;
     private ConsoleHelper consoleHelper;
@@ -41,7 +41,7 @@ public class Game {
     private boolean initializeShips(ArrayList<Ship> ships, MultiDimensionArray field) {
         for (int i = 0; i < SHIPS_BY_SIZE.length; i++) {
             for (int j = 0; j < SHIPS_BY_SIZE[i]; j++) {
-                ships.add(new Ship(i));
+                ships.add(new Ship(i+1));
             }
         }
         if (!field.addShips(ships)) {
@@ -71,6 +71,7 @@ public class Game {
                     isSuccessfullMatch = false;
                     System.out.println();
                     System.out.println("Player turn");
+                    field.printField();
                     userInputCoords = consoleHelper.getCoordsInput();
                     //check field for matches
 //                        if (field.checkFire(userInputCoords)) {
@@ -90,6 +91,7 @@ public class Game {
                     //else computer
                     System.out.println();
                     System.out.println("Computer turn");
+                    computerField.printField();
                     //gen computer input
                     for (int i = 0; i < dimensions; i++) {
                         computerInputCoords[i] = new Random().nextInt();
@@ -100,7 +102,7 @@ public class Game {
                 }
             }
 
-            field.printField();
+
         }
         return true;
     }

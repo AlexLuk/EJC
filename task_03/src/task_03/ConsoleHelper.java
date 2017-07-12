@@ -22,7 +22,7 @@ public class ConsoleHelper {
     private int numOfCells;
 
 
-    private BufferedReader playerInputScanner = null;
+
 
     public ConsoleHelper(int dimensions, int fieldSize) {
         this.dimensions = dimensions;
@@ -60,7 +60,7 @@ public class ConsoleHelper {
     ArrayList<Integer> getCoordsInput() {
         ArrayList<Integer> coords = new ArrayList<Integer>();
         boolean isPlayerInputAcceptable = false;
-
+        BufferedReader playerInputScanner = null;
         try {
             playerInputScanner = new BufferedReader(new InputStreamReader(System.in));
             while (!isPlayerInputAcceptable) {

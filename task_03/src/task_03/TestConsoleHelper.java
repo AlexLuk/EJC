@@ -5,8 +5,8 @@ public class TestConsoleHelper {
         ConsoleHelper consoleHelper = new ConsoleHelper(3,6);
         consoleHelper.printGreeting();
 
-        while (true){
+//        while (true){
             System.out.println(consoleHelper.getCoordsInput());
-        }
+//        }
     }
 }

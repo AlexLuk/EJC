@@ -58,10 +58,12 @@ public class MultiDimensionArray {
         boolean shipAdded = false;
         int shipAddTry = 0;
         do {
+            int shipLengthCounter = ship.getSize();
             // exit condition if error
             shipAddTry++;
             if (shipAddTry > MAX_SHIP_ADD_TRY) {
                 System.out.println(ship + " was not added");
+                System.out.println(shipAddTry);
                 return false;
             }
             //clear ship sells
@@ -73,14 +75,17 @@ public class MultiDimensionArray {
             //get direction
             int direction = 1 - new Random().nextInt(2);
             for (int i = 0; i < numOfDimensions; i++) {
-                shipCoord[i] = new Random().nextInt(size - 1);
+                shipCoord[i] = new Random().nextInt(size);
             }
             //get start cell
-            Cell shipCell = getCellByCoords(shipCoord);
+            Cell shipCell = null;
+            //get cell by coords
+            shipCell = getCellByCoords(shipCoord);
             //check for cell validity
+
             if (shipCell.getValue() == Cell.CellValue.EMPTY) {
                 boolean isNeighborCellsEmpty = true;
-                ArrayList<int[]> neighborCellCoords = getNeighborCellsCoords(null,getCellCoordsByIndex(shipCell.testNum),0);
+                ArrayList<int[]> neighborCellCoords = getNeighborCellsCoords(null, getCellCoordsByIndex(shipCell.testNum), 0);
                 ArrayList<Cell> neighborCells = getNeighborCells(neighborCellCoords, ship.getShipCells());
                 for (Cell cell : neighborCells) {
                     if (cell.getValue() != Cell.CellValue.EMPTY) {
@@ -90,15 +95,19 @@ public class MultiDimensionArray {
                 }
                 if (isNeighborCellsEmpty) {
                     ship.addCell(shipCell);
+                    shipLengthCounter--;
                     //next shipCell coords
-                    shipCoord[shipAxis] = shipCoord[shipAxis] + direction;
-
-                    for (Cell cell : ship.getShipCells()) {
-                        cell.setShipPointer(ship);
-                        cell.setValue(Cell.CellValue.SHIP);
-
+                    if (shipLengthCounter == 0) {
+                        shipAdded = true;
+                        for (Cell cell : ship.getShipCells()) {
+                            cell.setShipPointer(ship);
+                            shipCell.setValue(Cell.CellValue.SHIP);
+                        }
+                        System.out.println(shipAddTry);
+                    } else {
+                        //return to get cell by coords
+                        shipCoord[shipAxis] = shipCoord[shipAxis] + direction;
                     }
-                    shipAdded = true;
 
                 } else {
                     continue;
@@ -117,7 +126,7 @@ public class MultiDimensionArray {
         ArrayList<Cell> shipCells = ship.getShipCells();
         ArrayList<Cell> neighborCells;
         for (Cell shipCell : shipCells) {
-            ArrayList<int[]> neighborCellCoords = getNeighborCellsCoords(null,getCellCoordsByIndex(shipCell.testNum),0);
+            ArrayList<int[]> neighborCellCoords = getNeighborCellsCoords(null, getCellCoordsByIndex(shipCell.testNum), 0);
             neighborCells = getNeighborCells(neighborCellCoords, shipCells);
             for (Cell neighborCell : neighborCells) {
                 neighborCell.setValue(Cell.CellValue.SHOT);
@@ -206,7 +215,7 @@ public class MultiDimensionArray {
             if (coordsNum < numOfDimensions - 1) {
                 getNeighborCellsCoords(neighborCoords, coords, coordsNum + 1);
             }
-            neighborCoords.add(coords.clone());
+            if (coordsNum != 0) neighborCoords.add(coords.clone());
             coords[coordsNum] = tempCoord;
         }
         return neighborCoords;

@@ -6,9 +6,23 @@ import java.util.ArrayList;
 
 public class Ship {
     private boolean isDestroed = false;
+    private int liveCellsCounter=0;
 
     public int getSize() {
         return size;
+    }
+
+    public boolean addDamage(){
+        if (!isDestroed){
+            liveCellsCounter--;
+            if (liveCellsCounter==0){
+                isDestroed=true;
+                return true;
+            }
+            return  false;
+        } else{
+            return false;
+        }
     }
 
     private int size=0;
@@ -22,6 +36,7 @@ public class Ship {
     public Ship(int size) {
         this.size = size;
         shipCells=new ArrayList<Cell>(size);
+        liveCellsCounter=size;
     }
 
     public boolean addCell(Cell cell){
@@ -37,7 +52,6 @@ public class Ship {
     @Override
     public String toString() {
         return "Ship{" +
-                "isDestroed=" + isDestroed +
                 ", size=" + size +
                 ", shipCells=" + shipCells +
                 '}';

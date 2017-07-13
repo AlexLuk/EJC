@@ -1,7 +1,6 @@
 package task_03;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public class MultiDimensionArray {
@@ -10,6 +9,8 @@ public class MultiDimensionArray {
     private int size;
     private int numOfDimensions;
     private int numOfCells;
+    private int aliveShipCounter = 0;
+    private boolean areAllShipsDestroed = false;
 
     public MultiDimensionArray(int size, int numOfDimensions) {
         this.size = size;
@@ -17,11 +18,22 @@ public class MultiDimensionArray {
         setupMultiDimensionArray();
     }
 
+    public boolean areAllShipsDestroedChecker() {
+        return areAllShipsDestroed;
+    }
+
+    private void decreaseAliveShipCounter() {
+        aliveShipCounter--;
+        if (aliveShipCounter == 0) {
+            areAllShipsDestroed = true;
+        }
+    }
+
     public void printField() {
         for (int i = 0; i < cells.size(); i++) {
             String printSymbol;
-            for (int j = 1; j < numOfDimensions+1; j++) {
-                if (i % Math.pow(size,j) == 0&&i!=0) {
+            for (int j = 1; j < numOfDimensions + 1; j++) {
+                if (i % Math.pow(size, j) == 0 && i != 0) {
                     System.out.println();
                 }
             }
@@ -33,7 +45,7 @@ public class MultiDimensionArray {
                     printSymbol = "o";
                     break;
                 case EMPTY:
-                    printSymbol = "?";
+                    printSymbol = ".";
                     break;
                 case DAMAGE:
                     printSymbol = "#";
@@ -47,12 +59,12 @@ public class MultiDimensionArray {
         System.out.println();
     }
 
-
     public boolean addShips(ArrayList<Ship> ships) {
         for (int i = 0; i < ships.size(); i++) {
             if (!addShip(ships.get(i))) {
                 return false;
             }
+            aliveShipCounter++;
         }
         return true;
     }
@@ -76,19 +88,17 @@ public class MultiDimensionArray {
             //get axis
             int shipAxis = new Random().nextInt(numOfDimensions);
             //get direction
-            int direction = new Random().nextBoolean()?(-1):1;
-            for (int i = 0; i < numOfDimensions; i++) {
-                shipCoord[i] = new Random().nextInt(size);
-            }
+            int direction = new Random().nextBoolean() ? (-1) : 1;
+            getRandomCoord(shipCoord);
             //get start cell
             Cell shipCell = null;
             //get cell by coords
 
-            while(!shipAdded) {
+            while (!shipAdded) {
 //                System.out.println("shipCoord" + Arrays.toString(shipCoord));
                 shipCell = getCellByCoords(shipCoord);
                 //check for cell validity
-                if (shipCell!=null && shipCell.getValue() == Cell.CellValue.EMPTY) {
+                if (shipCell != null && shipCell.getValue() == Cell.CellValue.EMPTY) {
                     boolean isNeighborCellsEmpty = true;
                     ArrayList<int[]> neighborCellCoords = getNeighborCellsCoords(null, getCellCoordsByIndex(shipCell.testNum), 0);
                     ArrayList<Cell> neighborCells = getNeighborCells(neighborCellCoords, ship.getShipCells());
@@ -121,6 +131,44 @@ public class MultiDimensionArray {
         //markNeighborCells(ship);
 
         return true;
+    }
+
+    public int[] getRandomNotShootCoord() {
+        int[] cellCoord = new int[numOfDimensions];
+        Cell.CellValue cellValue;
+        do {
+            getRandomCoord(cellCoord);
+            cellValue = getCellByCoords(cellCoord).getValue();
+        } while (cellValue != Cell.CellValue.EMPTY && cellValue != Cell.CellValue.SHIP);
+        return cellCoord;
+    }
+
+    private void getRandomCoord(int[] shipCoord) {
+        for (int i = 0; i < numOfDimensions; i++) {
+            shipCoord[i] = new Random().nextInt(size);
+        }
+    }
+
+    public boolean fire(int[] cords) {
+        Cell selectedCell;
+        selectedCell = cells.get(getCellIndexByCoords(cords));
+        switch (selectedCell.getValue()) {
+            case SHIP:
+                selectedCell.setValue(Cell.CellValue.DAMAGE);
+                Ship curentShip = selectedCell.getShipPointer();
+                if (curentShip.addDamage()) {
+                    System.out.println(curentShip + " was destroed");
+                    decreaseAliveShipCounter();
+                    markNeighborCells(curentShip);
+                }
+                return true;
+            case EMPTY:
+                selectedCell.setValue(Cell.CellValue.SHOT);
+                return false;
+            default:
+                return false;
+
+        }
     }
 
     private boolean isNeighborCellsEmpty(boolean isNeighborCellsEmpty, ArrayList<Cell> neighborCells) {

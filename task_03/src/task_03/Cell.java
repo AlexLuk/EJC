@@ -17,6 +17,10 @@ public class Cell {
         this.shipPointer = shipPointer;
     }
 
+    public Ship getShipPointer() {
+        return shipPointer;
+    }
+
     private Ship shipPointer;
 
     public Cell(CellValue cellValue,int testNum) {

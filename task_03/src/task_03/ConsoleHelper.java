@@ -17,6 +17,7 @@ public class ConsoleHelper {
     private static final String WRONG_COORD_VALUE = "Wrong value of coordinats";
     private static final String VALIDATION_STRING = "0123456789 ";
     private static final int COORD_TO_INDEX = -1;
+    private BufferedReader playerInputScanner;
     private int dimensions;
     private int fieldSize;
     private int numOfCells;
@@ -28,6 +29,14 @@ public class ConsoleHelper {
         this.dimensions = dimensions;
         this.fieldSize = fieldSize;
         numOfCells = (int) Math.pow(fieldSize, dimensions);
+    }
+
+    public void playerInputClose(){
+        try {
+            playerInputScanner.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -57,10 +66,10 @@ public class ConsoleHelper {
      *
      * @return
      */
-    ArrayList<Integer> getCoordsInput() {
+    int[] getCoordsInput() throws IOException{
         ArrayList<Integer> coords = new ArrayList<Integer>();
         boolean isPlayerInputAcceptable = false;
-        BufferedReader playerInputScanner = null;
+
         try {
             playerInputScanner = new BufferedReader(new InputStreamReader(System.in));
             while (!isPlayerInputAcceptable) {
@@ -90,7 +99,7 @@ public class ConsoleHelper {
 //                e.printStackTrace();
 //            }
         }
-        return coords;
+        return coords.stream().mapToInt(i->i).toArray();
     }
 
     private boolean areDimensionsValid(ArrayList<Integer> coords) {

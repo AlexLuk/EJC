@@ -67,7 +67,6 @@ public class Game {
                 if (isPlayerTurn) {
                     playerMovesCounter++;
                     while (isSuccessfullMatch && isGameRunning) {
-                        isSuccessfullMatch = false;
                         consoleHelper.playerMovePrint();
                         userInputCoords = consoleHelper.getCoordsInput();
                         isSuccessfullMatch = computerField.fire(userInputCoords);
@@ -81,7 +80,6 @@ public class Game {
                 } else {
                     computerMovesCounter++;
                     while (isSuccessfullMatch && isGameRunning) {
-                        isSuccessfullMatch = false;
                         //else computer
                         consoleHelper.computerMovePrint();
                         computerInputCoords = field.getRandomNotShootCoord();

@@ -3,13 +3,15 @@ package task_03.SeaBattle;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MultiDimensionArray {
+class MultiDimensionArray {
     private static final int MAX_SHIP_ADD_TRY = 500;
-    public static final String SHIP_SYMBOL = "S";
-    public static final String EMPTY_SYMBOL = ".";
-    public static final String SHOT_SYMBOL = "o";
-    public static final String DAMAGE_SYMBOL = "#";
-    public static final String DEFAULT_SYMBOL = "?";
+    private static final String SHIP_SYMBOL = "S";
+    private static final String EMPTY_SYMBOL = ".";
+    private static final String SHOT_SYMBOL = "o";
+    private static final String DAMAGE_SYMBOL = "#";
+    private static final String DEFAULT_SYMBOL = "?";
+    private static final String WAS_DESTROED = " was destroed";
+    private static final String WAS_NOT_ADDED = " was not added";
     private ArrayList<Cell> cells;
     private int size;
     private int numOfDimensions;
@@ -17,13 +19,13 @@ public class MultiDimensionArray {
     private int aliveShipCounter = 0;
     private boolean areAllShipsDestroed = false;
 
-    public MultiDimensionArray(int size, int numOfDimensions) {
+    MultiDimensionArray(int size, int numOfDimensions) {
         this.size = size;
         this.numOfDimensions = numOfDimensions;
         setupMultiDimensionArray();
     }
 
-    public boolean areAllShipsDestroedChecker() {
+    boolean areAllShipsDestroedChecker() {
         return areAllShipsDestroed;
     }
 
@@ -34,44 +36,49 @@ public class MultiDimensionArray {
         }
     }
 
-    public void printField(boolean isCehatModeOn) {
+    void printField(boolean isCheatMode) {
+        String printSymbol;
         for (int i = 0; i < cells.size(); i++) {
-            String printSymbol;
             for (int j = 1; j < numOfDimensions + 1; j++) {
                 if (i % Math.pow(size, j) == 0 && i != 0) {
                     System.out.println();
                 }
             }
-            switch (cells.get(i).getValue()) {
-
-                case SHIP:
-                    if (isCehatModeOn) {
-                        printSymbol = SHIP_SYMBOL;
-                    } else {
-                        printSymbol = EMPTY_SYMBOL;
-                    }
-                    break;
-                case SHOT:
-                    printSymbol = SHOT_SYMBOL;
-                    break;
-                case EMPTY:
-                    printSymbol = EMPTY_SYMBOL;
-                    break;
-                case DAMAGE:
-                    printSymbol = DAMAGE_SYMBOL;
-                    break;
-                default:
-                    printSymbol = DEFAULT_SYMBOL;
-            }
+            printSymbol = getCellSymbol(isCheatMode, i);
             System.out.print(" " + printSymbol);
         }
         System.out.println();
         System.out.println();
     }
 
-    public boolean addShips(ArrayList<Ship> ships) {
-        for (int i = 0; i < ships.size(); i++) {
-            if (!addShip(ships.get(i))) {
+    private String getCellSymbol(boolean isCehatModeOn, int i) {
+        String printSymbol;
+        switch (cells.get(i).getValue()) {
+            case SHIP:
+                if (isCehatModeOn) {
+                    printSymbol = SHIP_SYMBOL;
+                } else {
+                    printSymbol = EMPTY_SYMBOL;
+                }
+                break;
+            case SHOT:
+                printSymbol = SHOT_SYMBOL;
+                break;
+            case EMPTY:
+                printSymbol = EMPTY_SYMBOL;
+                break;
+            case DAMAGE:
+                printSymbol = DAMAGE_SYMBOL;
+                break;
+            default:
+                printSymbol = DEFAULT_SYMBOL;
+        }
+        return printSymbol;
+    }
+
+    boolean addShips(ArrayList<Ship> ships) {
+        for (Ship ship : ships) {
+            if (!addShip(ship)) {
                 return false;
             }
             aliveShipCounter++;
@@ -79,7 +86,7 @@ public class MultiDimensionArray {
         return true;
     }
 
-    public boolean addShip(Ship ship) {
+    boolean addShip(Ship ship) {
         boolean shipAdded = false;
         int shipAddTry = 0;
         do {
@@ -87,7 +94,7 @@ public class MultiDimensionArray {
             // exit condition if error
             shipAddTry++;
             if (shipAddTry > MAX_SHIP_ADD_TRY) {
-                System.out.println(ship + " was not added");
+                System.out.println(ship + WAS_NOT_ADDED);
                 System.out.println(shipAddTry);
                 return false;
             }
@@ -137,7 +144,7 @@ public class MultiDimensionArray {
         return true;
     }
 
-    public int[] getRandomNotShootCoord() {
+    int[] getRandomNotShootCoord() {
         int[] cellCoord = new int[numOfDimensions];
         Cell.CellValue cellValue;
         do {
@@ -153,7 +160,7 @@ public class MultiDimensionArray {
         }
     }
 
-    public boolean fire(int[] cords) {
+    boolean fire(int[] cords) {
         Cell selectedCell;
         selectedCell = cells.get(getCellIndexByCoords(cords));
         switch (selectedCell.getValue()) {
@@ -161,7 +168,7 @@ public class MultiDimensionArray {
                 selectedCell.setValue(Cell.CellValue.DAMAGE);
                 Ship curentShip = selectedCell.getShipPointer();
                 if (curentShip.addDamage()) {
-                    System.out.println(curentShip + " was destroed");
+                    System.out.println(curentShip + WAS_DESTROED);
                     decreaseAliveShipCounter();
                     markNeighborCells(curentShip);
                 }
@@ -196,11 +203,11 @@ public class MultiDimensionArray {
         }
     }
 
-    public int getSize() {
+    int getSize() {
         return size;
     }
 
-    public int getNumOfDimensions() {
+    int getNumOfDimensions() {
         return numOfDimensions;
     }
 

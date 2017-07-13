@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class ConsoleHelper {
+class ConsoleHelper {
     private static final String GREETING_TEXT = "GREETING_TEXT";
     private static final String SETUP_FAILED = "Game setup failed";
     private static final String SHIP_CREATION_FAILED = "Ship creation failed";
@@ -39,7 +39,6 @@ public class ConsoleHelper {
     /**
      * Check for unsufficient symbols in stringForCheck
      *
-     * @param stringForCheck
      * @return True if all symbols are sufficient
      */
     private static boolean isSufficient(String stringForCheck) {
@@ -50,7 +49,7 @@ public class ConsoleHelper {
         return true;
     }
 
-    public void playerInputClose() {
+    void playerInputClose() {
         try {
             playerInputScanner.close();
         } catch (IOException e) {
@@ -58,7 +57,7 @@ public class ConsoleHelper {
         }
     }
 
-    public void setupFailed() {
+    void setupFailed() {
         printText(SETUP_FAILED);
     }
 
@@ -71,7 +70,7 @@ public class ConsoleHelper {
      *
      * @return
      */
-    public int[] getCoordsInput() throws IOException {
+    int[] getCoordsInput() throws IOException {
         ArrayList<Integer> coords = new ArrayList<Integer>();
         boolean isPlayerInputAcceptable = false;
 
@@ -92,7 +91,7 @@ public class ConsoleHelper {
                         System.out.println(WRONG_DINENSIONS_NUMBER);
                     }
                 } catch (NumberFormatException nfe) {
-                    System.out.println(WRONG_NUMBER_FORMAT_TEXT);
+                    System.err.println(WRONG_NUMBER_FORMAT_TEXT);
                 }
             }
         } catch (IOException e) {
@@ -144,18 +143,18 @@ public class ConsoleHelper {
         }
     }
 
-    public void winnerPrint(boolean doesComputerWin, int computerMovesCounter, int playerMovesCounter ) {
+    void winnerPrint(boolean doesComputerWin, int computerMovesCounter, int playerMovesCounter) {
         System.out.println(doesComputerWin? COMPUTER : PLAYER + IS_WINNER);
         System.out.println(COMPUTER_MOVE_COUNTER + computerMovesCounter);
         System.out.println(PLAYER_MOVE_COUNTER + playerMovesCounter);
     }
 
-    public void playerMovePrint() {
+    void playerMovePrint() {
         System.out.println();
         System.out.println(PLAYER_TURN);
     }
 
-    public void computerMovePrint() {
+    void computerMovePrint() {
         System.out.println();
         System.out.println(COMPUTER_TURN);
     }

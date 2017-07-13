@@ -8,17 +8,17 @@ public class Ship {
     private int size = 0;
     private ArrayList<Cell> shipCells;
 
-    public Ship(int size) {
+    Ship(int size) {
         this.size = size;
         shipCells = new ArrayList<Cell>(size);
         liveCellsCounter = size;
     }
 
-    public int getSize() {
+    int getSize() {
         return size;
     }
 
-    public boolean addDamage() {
+    boolean addDamage() {
         if (!isDestroed) {
             liveCellsCounter--;
             if (liveCellsCounter == 0) {
@@ -31,16 +31,16 @@ public class Ship {
         }
     }
 
-    public ArrayList<Cell> getShipCells() {
+    ArrayList<Cell> getShipCells() {
         return shipCells;
     }
 
-    public boolean addCell(Cell cell) {
+    boolean addCell(Cell cell) {
         shipCells.add(cell);
         return true;
     }
 
-    public boolean clearShipCells() {
+    boolean clearShipCells() {
         shipCells.clear();
         return true;
     }

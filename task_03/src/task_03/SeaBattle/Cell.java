@@ -5,24 +5,24 @@ public class Cell {
     private CellValue value;
     private Ship shipPointer;
 
-    public Cell(CellValue cellValue, int testNum) {
+    Cell(CellValue cellValue, int testNum) {
         this.value = cellValue;
         this.setTestNum(testNum);
     }
 
-    public CellValue getValue() {
+    CellValue getValue() {
         return value;
     }
 
-    public void setValue(CellValue value) {
+    void setValue(CellValue value) {
         this.value = value;
     }
 
-    protected Ship getShipPointer() {
+    Ship getShipPointer() {
         return shipPointer;
     }
 
-    protected void setShipPointer(Ship shipPointer) {
+    void setShipPointer(Ship shipPointer) {
         this.shipPointer = shipPointer;
     }
 
@@ -46,7 +46,7 @@ public class Cell {
         return getTestNum();
     }
 
-    public int getTestNum() {
+    int getTestNum() {
         return testNum;
     }
 

@@ -1,4 +1,4 @@
-package task_03;
+package task_03.SeaBattle;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,19 +17,20 @@ public class Game {
     private ArrayList<Ship> computerShips;
     private int playerMovesCounter = 0;
     private int computerMovesCounter = 0;
+    private boolean doesComputerWin = true;
 
     public Game(int dimensions, int fieldSize) {
         this.dimensions = dimensions;
         this.fieldSize = fieldSize;
     }
 
-    boolean setupGame() {
+    public boolean setupGame() {
         //user and computer fields
         field = new MultiDimensionArray(fieldSize, dimensions);
         computerField = new MultiDimensionArray(fieldSize, dimensions);
         //user and computer ships
-        ships = new ArrayList<Ship>();
-        computerShips = new ArrayList<Ship>();
+        ships = new ArrayList<>();
+        computerShips = new ArrayList<>();
         //initialize console helper
         consoleHelper = new ConsoleHelper(field.getNumOfDimensions(), field.getSize());
         //initialize user and computer ships
@@ -52,13 +53,8 @@ public class Game {
         return true;
     }
 
-    private void printShips() {
-        for (Ship ship : ships) {
-            System.out.println(ship);
-        }
-    }
 
-    boolean runGame() {
+    public boolean runGame() {
         boolean isGameRunning = true;
         boolean isPlayerTurn = true;
         boolean isSuccessfullMatch = true;
@@ -71,13 +67,13 @@ public class Game {
                     playerMovesCounter++;
                     while (isSuccessfullMatch && isGameRunning) {
                         isSuccessfullMatch = false;
-                        System.out.println();
-                        System.out.println("Player turn");
+                        consoleHelper.playerMovePrint();
                         userInputCoords = consoleHelper.getCoordsInput();
                         isSuccessfullMatch = computerField.fire(userInputCoords);
                         computerField.printField();
                         if (computerField.areAllShipsDestroedChecker()) {
                             isGameRunning = false;
+                            doesComputerWin = false;
                         }
                         isPlayerTurn = false;
                     }
@@ -86,8 +82,7 @@ public class Game {
                     while (isSuccessfullMatch && isGameRunning) {
                         isSuccessfullMatch = false;
                         //else computer
-                        System.out.println();
-                        System.out.println("Computer turn");
+                        consoleHelper.computerMovePrint();
                         computerInputCoords = field.getRandomNotShootCoord();
                         isSuccessfullMatch = field.fire(computerInputCoords);
                         field.printField();
@@ -98,15 +93,14 @@ public class Game {
                     }
                 }
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             consoleHelper.playerInputClose();
         }
-        System.out.println("Computer move counter" + computerMovesCounter);
-        System.out.println("Player move counter " + playerMovesCounter);
+        consoleHelper.winnerPrint(doesComputerWin, computerMovesCounter, playerMovesCounter);
         return true;
     }
+
 
 }

@@ -1,4 +1,4 @@
-package task_03;
+package task_03.SeaBattle;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,12 +17,17 @@ public class ConsoleHelper {
     private static final String WRONG_COORD_VALUE = "Wrong value of coordinats";
     private static final String VALIDATION_STRING = "0123456789 ";
     private static final int COORD_TO_INDEX = -1;
+    private static final String COMPUTER_MOVE_COUNTER = "Computer move counter ";
+    private static final String PLAYER_MOVE_COUNTER = "Player move counter ";
+    private static final String IS_WINNER = " is winner";
+    private static final String PLAYER = "Player";
+    private static final String COMPUTER = "Computer";
+    private static final String COMPUTER_TURN = "Computer turn";
+    private static final String PLAYER_TURN = "Player turn";
     private BufferedReader playerInputScanner;
     private int dimensions;
     private int fieldSize;
     private int numOfCells;
-
-
 
 
     public ConsoleHelper(int dimensions, int fieldSize) {
@@ -31,26 +36,26 @@ public class ConsoleHelper {
         numOfCells = (int) Math.pow(fieldSize, dimensions);
     }
 
-    public void playerInputClose(){
-        try {
-            playerInputScanner.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Check for unsufficient symbols in stringForCheck
      *
      * @param stringForCheck
      * @return True if all symbols are sufficient
      */
-    public static boolean isSufficient(String stringForCheck) {
+    private static boolean isSufficient(String stringForCheck) {
         char[] symbols = stringForCheck.toCharArray();
         for (char c : symbols) {
             if (VALIDATION_STRING.indexOf(c) == -1) return false;
         }
         return true;
+    }
+
+    public void playerInputClose() {
+        try {
+            playerInputScanner.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setupFailed() {
@@ -66,7 +71,7 @@ public class ConsoleHelper {
      *
      * @return
      */
-    int[] getCoordsInput() throws IOException{
+    public int[] getCoordsInput() throws IOException {
         ArrayList<Integer> coords = new ArrayList<Integer>();
         boolean isPlayerInputAcceptable = false;
 
@@ -99,15 +104,11 @@ public class ConsoleHelper {
 //                e.printStackTrace();
 //            }
         }
-        return coords.stream().mapToInt(i->i).toArray();
+        return coords.stream().mapToInt(i -> i).toArray();
     }
 
     private boolean areDimensionsValid(ArrayList<Integer> coords) {
-        if (coords.size() != dimensions) {
-            return false;
-        } else {
-            return true;
-        }
+        return coords.size() == dimensions;
 
     }
 
@@ -147,5 +148,21 @@ public class ConsoleHelper {
             System.out.println(DEFAULT_TEXT);
             return false;
         }
+    }
+
+    public void winnerPrint(boolean doesComputerWin, int computerMovesCounter, int playerMovesCounter ) {
+        System.out.println(doesComputerWin? COMPUTER : PLAYER + IS_WINNER);
+        System.out.println(COMPUTER_MOVE_COUNTER + computerMovesCounter);
+        System.out.println(PLAYER_MOVE_COUNTER + playerMovesCounter);
+    }
+
+    public void playerMovePrint() {
+        System.out.println();
+        System.out.println(PLAYER_TURN);
+    }
+
+    public void computerMovePrint() {
+        System.out.println();
+        System.out.println(COMPUTER_TURN);
     }
 }

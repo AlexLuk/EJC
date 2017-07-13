@@ -1,4 +1,4 @@
-package task_03;
+package task_03.SeaBattle;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -100,7 +100,7 @@ public class MultiDimensionArray {
                 //check for cell validity
                 if (shipCell != null && shipCell.getValue() == Cell.CellValue.EMPTY) {
                     boolean isNeighborCellsEmpty = true;
-                    ArrayList<int[]> neighborCellCoords = getNeighborCellsCoords(null, getCellCoordsByIndex(shipCell.testNum), 0);
+                    ArrayList<int[]> neighborCellCoords = getNeighborCellsCoords(null, getCellCoordsByIndex(shipCell.getTestNum()), 0);
                     ArrayList<Cell> neighborCells = getNeighborCells(neighborCellCoords, ship.getShipCells());
                     isNeighborCellsEmpty = isNeighborCellsEmpty(isNeighborCellsEmpty, neighborCells);
                     if (isNeighborCellsEmpty) {
@@ -185,7 +185,7 @@ public class MultiDimensionArray {
         ArrayList<Cell> shipCells = ship.getShipCells();
         ArrayList<Cell> neighborCells;
         for (Cell shipCell : shipCells) {
-            ArrayList<int[]> neighborCellCoords = getNeighborCellsCoords(null, getCellCoordsByIndex(shipCell.testNum), 0);
+            ArrayList<int[]> neighborCellCoords = getNeighborCellsCoords(null, getCellCoordsByIndex(shipCell.getTestNum()), 0);
             neighborCells = getNeighborCells(neighborCellCoords, shipCells);
             for (Cell neighborCell : neighborCells) {
                 neighborCell.setValue(Cell.CellValue.SHOT);
@@ -211,7 +211,7 @@ public class MultiDimensionArray {
         }
     }
 
-    public boolean doesCellExist(int[] coords) {
+    private boolean doesCellExist(int[] coords) {
         if (coords.length != numOfDimensions) {
             return false;
         }
@@ -225,7 +225,7 @@ public class MultiDimensionArray {
         return true;
     }
 
-    public Cell getCellByCoords(int[] coords) {
+    private Cell getCellByCoords(int[] coords) {
         int cellIngex = getCellIndexByCoords(coords);
         if (cellIngex > -1) {
             return cells.get(cellIngex);
@@ -234,7 +234,7 @@ public class MultiDimensionArray {
         }
     }
 
-    public int getCellIndexByCoords(int[] coords) {
+    private int getCellIndexByCoords(int[] coords) {
         if (doesCellExist(coords)) {
             int cellIndex = 0;
             for (int i = 0; i < coords.length; i++) {
@@ -253,7 +253,7 @@ public class MultiDimensionArray {
      * @param
      * @return
      */
-    public ArrayList<Cell> getNeighborCells(ArrayList<int[]> neighborCellsCoords, ArrayList<Cell> excludeCell) {
+    private ArrayList<Cell> getNeighborCells(ArrayList<int[]> neighborCellsCoords, ArrayList<Cell> excludeCell) {
         ArrayList<Cell> neighborCells = new ArrayList();
         for (int[] coords : neighborCellsCoords) {
             if (doesCellExist(coords)) {
@@ -265,7 +265,7 @@ public class MultiDimensionArray {
         return neighborCells;
     }
 
-    public ArrayList<int[]> getNeighborCellsCoords(ArrayList<int[]> neighborCoords, int[] coords, int coordsNum) {
+    private ArrayList<int[]> getNeighborCellsCoords(ArrayList<int[]> neighborCoords, int[] coords, int coordsNum) {
         if (neighborCoords == null) neighborCoords = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             int tempCoord;
@@ -280,7 +280,7 @@ public class MultiDimensionArray {
         return neighborCoords;
     }
 
-    public int[] getCellCoordsByIndex(int cellNum) {
+    private int[] getCellCoordsByIndex(int cellNum) {
         int[] coords = new int[numOfDimensions];
         int dimPow = 0;
         for (int i = 0; i < numOfDimensions; i++) {

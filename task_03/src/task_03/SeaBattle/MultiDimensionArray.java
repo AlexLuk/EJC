@@ -37,18 +37,68 @@ class MultiDimensionArray {
     }
 
     void printField(boolean isCheatMode) {
-        String printSymbol;
-        for (int i = 0; i < cells.size(); i++) {
-            for (int j = 1; j < numOfDimensions + 1; j++) {
-                if (i % Math.pow(size, j) == 0 && i != 0) {
-                    System.out.println();
-                }
-            }
-            printSymbol = getCellSymbol(isCheatMode, i);
-            System.out.print(" " + printSymbol);
+        int startIndex = 0;
+        int endIndex = size;
+        switch (numOfDimensions) {
+            case 0:
+                System.out.println();
+                break;
+            case 1:
+                print1DField(startIndex, endIndex, isCheatMode);
+                break;
+            case 2:
+                print2DField(isCheatMode);
+                break;
+            case 3:
+                print3DField(isCheatMode,0);
+                break;
+            default:
+                printNDField(isCheatMode);
+                break;
+
         }
+    }
+
+    private void printNDField(boolean isCheatMode){
+        print3DField(isCheatMode,0);
         System.out.println();
-        System.out.println();
+        int multidimenstionOffset=(int)Math.pow(size,3);
+        for (int dimension = 3; dimension < numOfDimensions; dimension++) {
+            print3DField(isCheatMode,multidimenstionOffset);
+        }
+    }
+
+    private void print3DField(boolean isCheatMode, int multidimenstionOffset) {
+        int startIndex;
+        int endIndex;
+        for (int curRow = 0; curRow < size; curRow++) {
+            for (int curDimension = 0; curDimension < 3; curDimension++) {
+                startIndex = curDimension * (int) Math.pow(size, 2)+curRow*size+multidimenstionOffset;
+                endIndex = startIndex + size;
+                print1DField(startIndex, endIndex, isCheatMode);
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
+
+    private void print1DField(int stratIndex, int endIndex, boolean isCheatMode) {
+        String printSymbol;
+        for (int i = stratIndex; i < endIndex; i++) {
+            printSymbol = getCellSymbol(isCheatMode, i);
+            System.out.print(printSymbol + " ");
+        }
+    }
+
+    private void print2DField(boolean isCheatMode){
+        int startIndex=0;
+        int endIndex=size;
+        for (int currRow = 0; currRow < size; currRow++) {
+            print1DField(startIndex,endIndex,isCheatMode);
+            System.out.println();
+            startIndex+=size;
+            endIndex+=size;
+        }
     }
 
     private String getCellSymbol(boolean isCehatModeOn, int i) {
@@ -74,6 +124,7 @@ class MultiDimensionArray {
                 printSymbol = DEFAULT_SYMBOL;
         }
         return printSymbol;
+//        return cells.get(i).getTestNum() + "";
     }
 
     boolean addShips(ArrayList<Ship> ships) {

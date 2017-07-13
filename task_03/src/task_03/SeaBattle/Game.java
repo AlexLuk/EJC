@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Game {
-    //    private static final int[] SHIPS_BY_SIZE = {4, 3, 2, 1};
+        private static final int[] SHIPS_BY_SIZE = {4, 3, 2, 1};
 
-    private static final int[] SHIPS_BY_SIZE = {1};
+//    private static final int[] SHIPS_BY_SIZE = {1};
     private MultiDimensionArray field;
     private MultiDimensionArray computerField;
     private ConsoleHelper consoleHelper;
@@ -18,6 +18,7 @@ public class Game {
     private int playerMovesCounter = 0;
     private int computerMovesCounter = 0;
     private boolean doesComputerWin = true;
+    private static final boolean IS_CHEAT_MODE_ON=false;
 
     public Game(int dimensions, int fieldSize) {
         this.dimensions = dimensions;
@@ -70,7 +71,7 @@ public class Game {
                         consoleHelper.playerMovePrint();
                         userInputCoords = consoleHelper.getCoordsInput();
                         isSuccessfullMatch = computerField.fire(userInputCoords);
-                        computerField.printField();
+                        computerField.printField(IS_CHEAT_MODE_ON);
                         if (computerField.areAllShipsDestroedChecker()) {
                             isGameRunning = false;
                             doesComputerWin = false;
@@ -85,7 +86,7 @@ public class Game {
                         consoleHelper.computerMovePrint();
                         computerInputCoords = field.getRandomNotShootCoord();
                         isSuccessfullMatch = field.fire(computerInputCoords);
-                        field.printField();
+                        field.printField(IS_CHEAT_MODE_ON);
                         if (field.areAllShipsDestroedChecker()) {
                             isGameRunning = false;
                         }

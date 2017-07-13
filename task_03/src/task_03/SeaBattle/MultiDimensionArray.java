@@ -5,6 +5,11 @@ import java.util.Random;
 
 public class MultiDimensionArray {
     private static final int MAX_SHIP_ADD_TRY = 500;
+    public static final String SHIP_SYMBOL = "S";
+    public static final String EMPTY_SYMBOL = ".";
+    public static final String SHOT_SYMBOL = "o";
+    public static final String DAMAGE_SYMBOL = "#";
+    public static final String DEFAULT_SYMBOL = "?";
     private ArrayList<Cell> cells;
     private int size;
     private int numOfDimensions;
@@ -29,7 +34,7 @@ public class MultiDimensionArray {
         }
     }
 
-    public void printField() {
+    public void printField(boolean isCehatModeOn) {
         for (int i = 0; i < cells.size(); i++) {
             String printSymbol;
             for (int j = 1; j < numOfDimensions + 1; j++) {
@@ -38,20 +43,25 @@ public class MultiDimensionArray {
                 }
             }
             switch (cells.get(i).getValue()) {
+
                 case SHIP:
-                    printSymbol = "S";
+                    if (isCehatModeOn) {
+                        printSymbol = SHIP_SYMBOL;
+                    } else {
+                        printSymbol = EMPTY_SYMBOL;
+                    }
                     break;
                 case SHOT:
-                    printSymbol = "o";
+                    printSymbol = SHOT_SYMBOL;
                     break;
                 case EMPTY:
-                    printSymbol = ".";
+                    printSymbol = EMPTY_SYMBOL;
                     break;
                 case DAMAGE:
-                    printSymbol = "#";
+                    printSymbol = DAMAGE_SYMBOL;
                     break;
                 default:
-                    printSymbol = "?";
+                    printSymbol = DEFAULT_SYMBOL;
             }
             System.out.print(" " + printSymbol);
         }
@@ -95,7 +105,6 @@ public class MultiDimensionArray {
             //get cell by coords
 
             while (!shipAdded) {
-//                System.out.println("shipCoord" + Arrays.toString(shipCoord));
                 shipCell = getCellByCoords(shipCoord);
                 //check for cell validity
                 if (shipCell != null && shipCell.getValue() == Cell.CellValue.EMPTY) {
@@ -105,7 +114,6 @@ public class MultiDimensionArray {
                     isNeighborCellsEmpty = isNeighborCellsEmpty(isNeighborCellsEmpty, neighborCells);
                     if (isNeighborCellsEmpty) {
                         ship.addCell(shipCell);
-//                        shipCell.setValue(Cell.CellValue.SHIP);
                         shipLengthCounter--;
                         //next shipCell coords
                         if (shipLengthCounter == 0) {
@@ -117,7 +125,6 @@ public class MultiDimensionArray {
                         } else {
                             //return to get cell by coords
                             shipCoord[shipAxis] = shipCoord[shipAxis] + direction;
-//                            System.out.println(direction);
                         }
                     } else {
                         break;
@@ -127,9 +134,6 @@ public class MultiDimensionArray {
                 }
             }
         } while (!shipAdded);
-
-        //markNeighborCells(ship);
-
         return true;
     }
 
@@ -167,7 +171,6 @@ public class MultiDimensionArray {
                 return false;
             default:
                 return false;
-
         }
     }
 
@@ -246,13 +249,6 @@ public class MultiDimensionArray {
         }
     }
 
-    /**
-     * Function search for neighbor cells for cell by it's coords.
-     * For now work correctly only for 2 dimension field.
-     *
-     * @param
-     * @return
-     */
     private ArrayList<Cell> getNeighborCells(ArrayList<int[]> neighborCellsCoords, ArrayList<Cell> excludeCell) {
         ArrayList<Cell> neighborCells = new ArrayList();
         for (int[] coords : neighborCellsCoords) {
@@ -289,7 +285,6 @@ public class MultiDimensionArray {
             cellNum = cellNum - dimPow * coords[numOfDimensions - i - 1];
         }
         return coords;
-
     }
 
     private boolean isCellInExcluded(ArrayList<Cell> excludeCell, Cell cellToAdd) {

@@ -97,12 +97,6 @@ public class ConsoleHelper {
             }
         } catch (IOException e) {
             e.printStackTrace();
-//        } finally {
-//            try {
-//                playerInputScanner.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
         }
         return coords.stream().mapToInt(i -> i).toArray();
     }

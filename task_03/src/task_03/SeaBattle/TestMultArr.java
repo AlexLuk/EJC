@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class TestMultArr {
     public static void main(String[] args) {
-        MultiDimensionArray multiDimensionArray = new MultiDimensionArray(3,4);
+        MultiDimensionArray multiDimensionArray = new MultiDimensionArray(5,4);
         multiDimensionArray.printField(true);
     }
 }

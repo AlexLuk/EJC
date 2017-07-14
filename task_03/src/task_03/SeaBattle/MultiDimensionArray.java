@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 class MultiDimensionArray {
+    public static final String FIELD_PRINT_ERROR = "Sorry. It is not possible to print field.";
     private static final int MAX_SHIP_ADD_TRY = 500;
     private static final String SHIP_SYMBOL = "S";
     private static final String EMPTY_SYMBOL = ".";
@@ -11,7 +12,6 @@ class MultiDimensionArray {
     private static final String DAMAGE_SYMBOL = "#";
     private static final String DEFAULT_SYMBOL = "?";
     private static final String WAS_DESTROED = " was destroed";
-    private static final String WAS_NOT_ADDED = " was not added";
     private ArrayList<Cell> cells;
     private int size;
     private int numOfDimensions;
@@ -50,21 +50,23 @@ class MultiDimensionArray {
                 print2DField(isCheatMode);
                 break;
             case 3:
-                print3DField(isCheatMode,0);
+                print3DField(isCheatMode, 0);
+                break;
+            case 4:
+                print4DField(isCheatMode);
                 break;
             default:
-                printNDField(isCheatMode);
+                System.out.println(FIELD_PRINT_ERROR);
                 break;
 
         }
     }
 
-    private void printNDField(boolean isCheatMode){
-        print3DField(isCheatMode,0);
-        System.out.println();
-        int multidimenstionOffset=(int)Math.pow(size,3);
-        for (int dimension = 3; dimension < numOfDimensions; dimension++) {
-            print3DField(isCheatMode,multidimenstionOffset);
+    private void print4DField(boolean isCheatMode) {
+        int multidimenstionOffset = (int) Math.pow(size, 3);
+        for (int dimensionCoord = 0; dimensionCoord < size; dimensionCoord++) {
+            print3DField(isCheatMode, multidimenstionOffset * dimensionCoord);
+            System.out.println();
         }
     }
 
@@ -72,8 +74,8 @@ class MultiDimensionArray {
         int startIndex;
         int endIndex;
         for (int curRow = 0; curRow < size; curRow++) {
-            for (int curDimension = 0; curDimension < 3; curDimension++) {
-                startIndex = curDimension * (int) Math.pow(size, 2)+curRow*size+multidimenstionOffset;
+            for (int cur3Dindex = 0; cur3Dindex < size; cur3Dindex++) {
+                startIndex = cur3Dindex * (int) Math.pow(size, 2) + curRow * size + multidimenstionOffset;
                 endIndex = startIndex + size;
                 print1DField(startIndex, endIndex, isCheatMode);
                 System.out.print(" ");
@@ -90,14 +92,14 @@ class MultiDimensionArray {
         }
     }
 
-    private void print2DField(boolean isCheatMode){
-        int startIndex=0;
-        int endIndex=size;
+    private void print2DField(boolean isCheatMode) {
+        int startIndex = 0;
+        int endIndex = size;
         for (int currRow = 0; currRow < size; currRow++) {
-            print1DField(startIndex,endIndex,isCheatMode);
+            print1DField(startIndex, endIndex, isCheatMode);
             System.out.println();
-            startIndex+=size;
-            endIndex+=size;
+            startIndex += size;
+            endIndex += size;
         }
     }
 
@@ -145,8 +147,6 @@ class MultiDimensionArray {
             // exit condition if error
             shipAddTry++;
             if (shipAddTry > MAX_SHIP_ADD_TRY) {
-                System.out.println(ship + WAS_NOT_ADDED);
-                System.out.println(shipAddTry);
                 return false;
             }
             //clear ship sells

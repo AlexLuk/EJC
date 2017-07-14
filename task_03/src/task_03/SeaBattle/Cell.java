@@ -2,7 +2,7 @@ package task_03.SeaBattle;
 
 public class Cell {
     private int testNum;
-    private CellValue value;
+    private CellValue value=CellValue.EMPTY;
     private Ship shipPointer;
 
     Cell(CellValue cellValue, int testNum) {

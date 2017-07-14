@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Game {
-        private static final int[] SHIPS_BY_SIZE = {4, 3, 2, 1};
-
-//    private static final int[] SHIPS_BY_SIZE = {1};
+    private static final int[] SHIPS_BY_SIZE = {4, 3, 2, 1};
+    private static final int MAX_INITIALIZE_TRY_COUNTER = 100;
+    private static final boolean IS_CHEAT_MODE_ON = false;
     private MultiDimensionArray field;
     private MultiDimensionArray computerField;
     private ConsoleHelper consoleHelper;
@@ -18,27 +18,42 @@ public class Game {
     private int playerMovesCounter = 0;
     private int computerMovesCounter = 0;
     private boolean doesComputerWin = true;
-    private static final boolean IS_CHEAT_MODE_ON=false;
 
     public Game(int dimensions, int fieldSize) {
         this.dimensions = dimensions;
         this.fieldSize = fieldSize;
+        if (!setupGame()){
+            consoleHelper.setupFailed();
+        };
     }
 
-    public boolean setupGame() {
-        //user and computer fields
-        field = new MultiDimensionArray(fieldSize, dimensions);
-        computerField = new MultiDimensionArray(fieldSize, dimensions);
-        //user and computer ships
-        ships = new ArrayList<>();
-        computerShips = new ArrayList<>();
-        //initialize console helper
-        consoleHelper = new ConsoleHelper(field.getNumOfDimensions(), field.getSize());
-        //initialize user and computer ships
-        initializeShips(ships, field);
-        initializeShips(computerShips, computerField);
+    private boolean setupGame() {
         player = new Player();
-        return true;
+        boolean isInitialized = false;
+        int initializeTryCounter = 0;
+        while (!isInitialized && initializeTryCounter < MAX_INITIALIZE_TRY_COUNTER) {
+            field = new MultiDimensionArray(fieldSize, dimensions);
+            ships = new ArrayList<>();
+            isInitialized = initializeShips(ships, field);
+            initializeTryCounter++;
+        }
+        if (!isInitialized) {
+            return false;
+        }
+        isInitialized = false;
+        initializeTryCounter = 0;
+        while (!isInitialized && initializeTryCounter < MAX_INITIALIZE_TRY_COUNTER) {
+            computerField = new MultiDimensionArray(fieldSize, dimensions);
+            computerShips = new ArrayList<>();
+            isInitialized = initializeShips(computerShips, computerField);
+            initializeTryCounter++;
+        }
+        consoleHelper = new ConsoleHelper(field.getNumOfDimensions(), field.getSize());
+        if (!isInitialized) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private boolean initializeShips(ArrayList<Ship> ships, MultiDimensionArray field) {
@@ -48,7 +63,6 @@ public class Game {
             }
         }
         if (!field.addShips(ships)) {
-            consoleHelper.setupFailed();
             return false;
         }
         return true;

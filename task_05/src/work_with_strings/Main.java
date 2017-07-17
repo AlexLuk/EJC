@@ -1,4 +1,4 @@
-package WorkWithStrings;
+package work_with_strings;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -55,11 +55,9 @@ public class Main {
     }
 
     public int countUniqueSymbols(String inputString) {
-
         if (inputString == null || inputString.length() == 0) {
             return 0;
         }
-
         ArrayList<SymbolCounter> uniqueSymbolCounters = getSymbolCounters(inputString);
         HashSet reallyUniqueSymbols = new HashSet();
         reallyUniqueSymbols.addAll(uniqueSymbolCounters);

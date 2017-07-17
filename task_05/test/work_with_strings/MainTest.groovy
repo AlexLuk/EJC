@@ -1,4 +1,4 @@
-package WorkWithStrings
+package work_with_strings
 
 import org.junit.Test
 

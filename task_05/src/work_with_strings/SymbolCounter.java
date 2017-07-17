@@ -1,4 +1,4 @@
-package WorkWithStrings;
+package work_with_strings;
 
 class SymbolCounter {
     private char symbol;
@@ -32,7 +32,6 @@ class SymbolCounter {
     int getCounter() {
         return counter;
     }
-
 
     void increaseCounter() {
         counter++;

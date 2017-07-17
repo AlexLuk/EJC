@@ -14,7 +14,6 @@ public class FlyWithWings implements FlyBehavior {
         } else {
             flySpeed = flySpeed << 1;
         }
-//        System.out.println("I fly "+flySpeed);
         return flySpeed;
     }
 }

@@ -66,5 +66,17 @@ class MainTest extends groovy.util.GroovyTestCase {
         testString = "abab";
         println "Count = " + count + " testString = " + testString;
         assertEquals(count, main.countUniqueSymbols(testString));
+
+        count = 0;
+        testString = new String();
+        println "Count = " + count + " testString = " + testString;
+        assertEquals(count, main.countUniqueSymbols(testString));
+
+        count = 0;
+        testString = null;
+//        println "Count = " + count + " testString = " + testString;
+        assertEquals(count, main.countUniqueSymbols(testString));
+
+
     }
 }

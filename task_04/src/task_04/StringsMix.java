@@ -31,7 +31,6 @@ public class StringsMix {
         return outputString.toString();
     }
 
-
     static String reverseString(String inputString) {
         String outputString = "";
         char[] inputStrToChar = inputString.toCharArray();

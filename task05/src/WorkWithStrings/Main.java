@@ -1,58 +1,43 @@
 package WorkWithStrings;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
         Main arraysTask = new Main();
-        System.out.println(arraysTask.getMaxSameSymbols("qqqqqqew111111111111eefvs"));
-        System.out.println(arraysTask.countUniqueSymbols("abababababab"));
     }
 
-    private int getMaxSameSymbols(String inputString) {
-        int maxCounter = 0;
-        inputString=inputString.replaceAll("\\d+","");
-        ArrayList<UniqueSymbolCounter> uniqueSymbolsArray = getUniqueSymbolCounters(inputString);
-
-        for (int i = 0; i < uniqueSymbolsArray.size(); i++) {
-            int uniqueSymbolsItemCounter = uniqueSymbolsArray.get(i).getCounter();
-            if (uniqueSymbolsItemCounter > maxCounter) {
-                maxCounter = uniqueSymbolsItemCounter;
-            }
+    public int getMaxSymbolSequence(String inputString) {
+        int maxSequenceCounter = 0;
+        inputString = inputString.replaceAll("[0-9]", "");
+        if(inputString.length()==0){
+            return 0;
         }
-        return maxCounter;
-    }
-
-    int countUniqueSymbols(String inputString){
-        ArrayList<UniqueSymbolCounter> uniqueSymbolCounters = getUniqueSymbolCounters(inputString);
-        HashSet reallyUniqueSymbols=new HashSet();
-        reallyUniqueSymbols.addAll(uniqueSymbolCounters);
-        return reallyUniqueSymbols.size();
-    }
-
-    private ArrayList<UniqueSymbolCounter> getUniqueSymbolCounters(String inputString) {
-        char[] symbols = inputString.toCharArray();
-        ArrayList<UniqueSymbolCounter> uniqueSymbolsArray = new ArrayList<>();
-        for (char symbol : symbols) {
-            if (uniqueSymbolsArray.size() == 0) {
-                uniqueSymbolsArray.add(new UniqueSymbolCounter(symbol, 1));
+        char[] inputChars = inputString.toCharArray();
+        ArrayList<SymbolCounter> symbolCounters = new ArrayList<>();
+        SymbolCounter currentSymbolCounter = null;
+        for (int i = 0; i < inputChars.length; i++) {
+            if (i == 0) {
+                currentSymbolCounter = new SymbolCounter(inputChars[i], 1);
             } else {
-                for (UniqueSymbolCounter uniqueSymbolsItem : uniqueSymbolsArray) {
-                    if (uniqueSymbolsItem.getSymbol() == symbol) {
-                        uniqueSymbolsItem.increaseCounter();
-                        break;
-                    } else {
-                        uniqueSymbolsArray.add(new UniqueSymbolCounter(symbol, 1));
-                        break;
-                    }
+                if (inputChars[i] == currentSymbolCounter.getSymbol()) {
+                    currentSymbolCounter.increaseCounter();
+                } else {
+                    symbolCounters.add(currentSymbolCounter);
+                    currentSymbolCounter = new SymbolCounter(inputChars[i], 1);
                 }
             }
         }
-        return uniqueSymbolsArray;
-    }
+        symbolCounters.add(currentSymbolCounter);
 
+        for (SymbolCounter symbolCounter:symbolCounters){
+            int currentCounter = symbolCounter.getCounter();
+            if(currentCounter>maxSequenceCounter) {
+                maxSequenceCounter = currentCounter ;
+            }
+        }
+        return maxSequenceCounter;
+    }
 }
 
 

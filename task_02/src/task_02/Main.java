@@ -1,6 +1,6 @@
 package task_02;
 
-import Game.Game;
+import game.Game;
 
 public class Main {
     public static void main(String[] args) {

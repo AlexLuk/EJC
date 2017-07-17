@@ -1,8 +1,8 @@
-package Game;
+package game;
 
-import Ducks.Duck;
-import Ducks.RedHeadDuck;
-import Ducks.RubberDuck;
+import ducks.Duck;
+import ducks.RedHeadDuck;
+import ducks.RubberDuck;
 
 import java.util.ArrayList;
 import java.util.Random;

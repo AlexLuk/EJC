@@ -1,6 +1,6 @@
-package Ducks;
+package ducks;
 
-import Fly.FlyBehavior;
+import fly.FlyBehavior;
 
 public abstract class Duck {
     private FlyBehavior flyBehavior;

@@ -1,6 +1,6 @@
-package Ducks;
+package ducks;
 
-import Fly.FlyWithWings;
+import fly.FlyWithWings;
 
 public class RedHeadDuck extends Duck {
     public RedHeadDuck() {

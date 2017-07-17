@@ -1,4 +1,4 @@
-package task_03.SeaBattle;
+package task_03.sea_battle;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -58,7 +58,6 @@ class MultiDimensionArray {
             default:
                 System.out.println(FIELD_PRINT_ERROR);
                 break;
-
         }
     }
 
@@ -126,7 +125,6 @@ class MultiDimensionArray {
                 printSymbol = DEFAULT_SYMBOL;
         }
         return printSymbol;
-//        return cells.get(i).getTestNum() + "";
     }
 
     boolean addShips(ArrayList<Ship> ships) {
@@ -160,8 +158,8 @@ class MultiDimensionArray {
             getRandomCoord(shipCoord);
             //get start cell
             Cell shipCell = null;
-            //get cell by coords
 
+            //get cell by coords
             while (!shipAdded) {
                 shipCell = getCellByCoords(shipCoord);
                 //check for cell validity

@@ -1,4 +1,4 @@
-package task_03.SeaBattle;
+package task_03.sea_battle;
 
 public class Cell {
     private int testNum;

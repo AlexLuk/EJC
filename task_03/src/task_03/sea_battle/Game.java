@@ -1,4 +1,4 @@
-package task_03.SeaBattle;
+package task_03.sea_battle;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,9 +22,9 @@ public class Game {
     public Game(int dimensions, int fieldSize) {
         this.dimensions = dimensions;
         this.fieldSize = fieldSize;
-        if (!setupGame()){
+        if (!setupGame()) {
             consoleHelper.setupFailed();
-        };
+        }
     }
 
     private boolean setupGame() {
@@ -67,7 +67,6 @@ public class Game {
         }
         return true;
     }
-
 
     public boolean runGame() {
         boolean isGameRunning = true;
@@ -114,6 +113,4 @@ public class Game {
         consoleHelper.winnerPrint(doesComputerWin, computerMovesCounter, playerMovesCounter);
         return true;
     }
-
-
 }

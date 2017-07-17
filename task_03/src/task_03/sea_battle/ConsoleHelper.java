@@ -1,4 +1,4 @@
-package task_03.SeaBattle;
+package task_03.sea_battle;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -144,7 +144,7 @@ class ConsoleHelper {
     }
 
     void winnerPrint(boolean doesComputerWin, int computerMovesCounter, int playerMovesCounter) {
-        System.out.println(doesComputerWin? COMPUTER : PLAYER + IS_WINNER);
+        System.out.println(doesComputerWin ? COMPUTER : PLAYER + IS_WINNER);
         System.out.println(COMPUTER_MOVE_COUNTER + computerMovesCounter);
         System.out.println(PLAYER_MOVE_COUNTER + playerMovesCounter);
     }

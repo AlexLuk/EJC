@@ -1,4 +1,4 @@
-package task_03.SeaBattle;
+package task_03.sea_battle;
 
 import java.util.ArrayList;
 

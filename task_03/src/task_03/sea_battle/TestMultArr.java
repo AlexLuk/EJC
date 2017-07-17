@@ -1,6 +1,4 @@
-package task_03.SeaBattle;
-
-import java.util.ArrayList;
+package task_03.sea_battle;
 
 public class TestMultArr {
     public static void main(String[] args) {

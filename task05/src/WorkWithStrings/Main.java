@@ -1,5 +1,7 @@
 package WorkWithStrings;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class Main {
@@ -13,6 +15,20 @@ public class Main {
         if(inputString.length()==0){
             return 0;
         }
+
+        ArrayList<SymbolCounter> symbolCounters = getSymbolCounters(inputString);
+
+        for (SymbolCounter symbolCounter:symbolCounters){
+            int currentCounter = symbolCounter.getCounter();
+            if(currentCounter>maxSequenceCounter) {
+                maxSequenceCounter = currentCounter ;
+            }
+        }
+        return maxSequenceCounter;
+    }
+
+    @NotNull
+    private ArrayList<SymbolCounter> getSymbolCounters(String inputString) {
         char[] inputChars = inputString.toCharArray();
         ArrayList<SymbolCounter> symbolCounters = new ArrayList<>();
         SymbolCounter currentSymbolCounter = null;
@@ -29,14 +45,7 @@ public class Main {
             }
         }
         symbolCounters.add(currentSymbolCounter);
-
-        for (SymbolCounter symbolCounter:symbolCounters){
-            int currentCounter = symbolCounter.getCounter();
-            if(currentCounter>maxSequenceCounter) {
-                maxSequenceCounter = currentCounter ;
-            }
-        }
-        return maxSequenceCounter;
+        return symbolCounters;
     }
 }
 

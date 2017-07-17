@@ -7,6 +7,7 @@ class MainTest extends groovy.util.GroovyTestCase {
 
     @Test
     void testGetMaxSymbolSequence() {
+        println toString();
         Main main = new Main();
         int count = 4;
         String testString = "aaaa";
@@ -37,10 +38,21 @@ class MainTest extends groovy.util.GroovyTestCase {
         testString = "aaa000bb00bb00cccc";
         println "Count = " + count + " testString = " + testString;
         assertEquals(count, main.getMaxSymbolSequence(testString));
+
+        count = 0;
+        testString = new String();
+        println "Count = " + count + " testString = " + testString;
+        assertEquals(count, main.getMaxSymbolSequence(testString));
+
+        count = 0;
+        testString = null;
+        println "Count = " + count + " testString = " + testString;
+        assertEquals(count, main.getMaxSymbolSequence(testString));
     }
 
     @Test
     void testCountUniqueSymbols() {
+        println toString();
         Main main = new Main();
         int count = 1;
         String testString = "aaaa";
@@ -74,7 +86,7 @@ class MainTest extends groovy.util.GroovyTestCase {
 
         count = 0;
         testString = null;
-//        println "Count = " + count + " testString = " + testString;
+        println "Count = " + count + " testString = " + testString;
         assertEquals(count, main.countUniqueSymbols(testString));
 
 

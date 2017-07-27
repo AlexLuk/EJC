@@ -5,7 +5,7 @@ import org.junit.Test
 class BubbleSorterTest extends GroovyTestCase {
 
     @Test
-    void testInsertionSort() {
+    void testBubbleSort() {
         Integer[] testArray = [4, 3, 2, 1];
         Integer[] testSortedArray = [1, 2, 3, 4];
         assertArrayEquals(testSortedArray, BubbleSorter.bubbleSort(testArray));

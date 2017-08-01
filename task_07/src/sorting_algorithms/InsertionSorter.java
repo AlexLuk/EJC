@@ -1,10 +1,42 @@
 package sorting_algorithms;
 
 public class InsertionSorter extends Sorter {
+    private static int sorterVariant;
+
+    /**
+     * Select wariant of insertion sort realisation
+     *
+     * @param sorterVariant - realisation index 1 - 3, default - 1
+     */
+    public static void setSorterVariant(int sorterVariant) {
+        InsertionSorter.sorterVariant = sorterVariant;
+    }
+
+    /**
+     * /**Get the input array, copy and sort it using insertion sort algorithm, then return sorted array
+     *
+     * @param inputArray - the array of integers for sorting
+     * @return - sorted representation of input array
+     */
     public static Integer[] insertionSort(Integer[] inputArray) {
         Integer[] resultArray = new Integer[inputArray.length];
         copyArray(inputArray, resultArray);
-        sort3(resultArray);
+        if (inputArray.length <= 1) {
+            return resultArray;
+        }
+        switch (sorterVariant) {
+            case 1:
+                sort1(resultArray);
+                break;
+            case 2:
+                sort2(resultArray);
+                break;
+            case 3:
+                sort3(resultArray);
+                break;
+            default:
+                sort1(resultArray);
+        }
         return resultArray;
     }
 
@@ -23,7 +55,6 @@ public class InsertionSorter extends Sorter {
     private static void sort2(Integer[] resultArray) {
         for (int j = 0; j < resultArray.length; j++) {
             int elementForCheck = resultArray[j];
-            int i = j;
             while (j > 0 && resultArray[j - 1] > elementForCheck) {
                 resultArray[j] = resultArray[j - 1];
                 j--;

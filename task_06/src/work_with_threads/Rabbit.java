@@ -16,6 +16,11 @@ public class Rabbit{
             System.err.println("Rabbit started eating");
             while (isEating){
                 System.err.println("Rabbit is eating");
+                try {
+                    sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             System.err.println("Rabbit was stopped");
         }

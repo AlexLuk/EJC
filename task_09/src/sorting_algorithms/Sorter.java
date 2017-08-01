@@ -4,7 +4,6 @@ public class Sorter {
     private static final int MAX_SYMBOLS_IN_LINE = 10;
 
     public static String arrayToString(Integer[] array) {
-        String finalString = "";
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < array.length; i++) {
             if (i != 0 && i % MAX_SYMBOLS_IN_LINE == 0) {

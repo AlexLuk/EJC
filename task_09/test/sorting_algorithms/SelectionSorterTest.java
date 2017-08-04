@@ -1,12 +1,12 @@
 package sorting_algorithms;
 
-import groovy.util.GroovyTestCase;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
 
-public class SelectionSorterTest extends GroovyTestCase {
+public class SelectionSorterTest {
     @Test
-    public void testSelectionSort() {
+    public void selectionSort() throws Exception {
         Integer[] testArray = {4, 3, 2, 1};
         Integer[] testSortedArray = {1, 2, 3, 4};
         assertArrayEquals(testSortedArray, SelectionSorter.selectionSort(testArray));
@@ -31,6 +31,5 @@ public class SelectionSorterTest extends GroovyTestCase {
         testSortedArray = new Integer[]{-4, -1, 2, 3};
         assertArrayEquals(testSortedArray, SelectionSorter.selectionSort(testArray));
     }
-}
 
-    
+}

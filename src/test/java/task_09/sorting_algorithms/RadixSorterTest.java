@@ -45,7 +45,7 @@ public class RadixSorterTest {
     public void getMaxDigit() throws Exception {
         assertEquals(1, RadixSorter.getNumberOfDigits(1));
 
-        assertEquals(0, RadixSorter.getNumberOfDigits(1));
+        assertEquals(1, RadixSorter.getNumberOfDigits(1));
 
         assertEquals(2, RadixSorter.getNumberOfDigits(10));
 

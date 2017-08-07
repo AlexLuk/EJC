@@ -32,6 +32,12 @@ public class MergeSorter extends Sorter {
         return resultArray;
     }
 
+
+    /** Get two sorted arrays, and copy values from them to resultArray, in ascending order
+     * @param leftPartArray - first sorted array
+     * @param rightPartArray - second sorted array
+     * @return - sorted merged array
+     */
     public static Integer[] mergeWithSort(Integer[] leftPartArray, Integer[] rightPartArray) {
         Integer[] resultArray = new Integer[leftPartArray.length + rightPartArray.length];
         int leftArrayIndex = 0;
@@ -62,6 +68,4 @@ public class MergeSorter extends Sorter {
         }
         return resultArray;
     }
-
-
 }

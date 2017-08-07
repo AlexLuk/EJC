@@ -9,7 +9,8 @@ public class Sorter {
             if (i != 0 && i % MAX_SYMBOLS_IN_LINE == 0) {
                 stringBuilder.append("\n");
             }
-            stringBuilder.append(array[i] + " ");
+            stringBuilder.append(array[i]);
+            stringBuilder.append(" ");
         }
         return stringBuilder.toString();
     }

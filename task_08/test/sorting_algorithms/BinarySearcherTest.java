@@ -2,12 +2,15 @@ package sorting_algorithms;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class BinarySearcherTest {
     @Test
     public void binarySearch() throws Exception {
         Integer[] testArray = {1, 2, 3, 4};
+        ArrayList l;
         assertEquals(1, BinarySearcher.binarySearch(testArray, 2));
 
         testArray = new Integer[]{2, 2, 2, 2};

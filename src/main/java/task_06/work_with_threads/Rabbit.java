@@ -2,19 +2,19 @@ package task_06.work_with_threads;
 
 import java.io.IOException;
 
-public class Rabbit{
+public class Rabbit {
     private static volatile boolean isEating = true;
 
     public static void main(String[] args) {
-       new Rabbit.Feeding().start();
-       new Rabbit.FeedStopper().start();
+        new Rabbit.Feeding().start();
+        new Rabbit.FeedStopper().start();
     }
 
-    public static class Feeding extends Thread{
+    public static class Feeding extends Thread {
         @Override
         public void run() {
             System.err.println("Rabbit started eating");
-            while (isEating){
+            while (isEating) {
                 System.err.println("Rabbit is eating");
                 try {
                     sleep(100);
@@ -26,7 +26,7 @@ public class Rabbit{
         }
     }
 
-    public static class FeedStopper extends Thread{
+    public static class FeedStopper extends Thread {
         @Override
         public void run() {
             System.err.println("You try to stop the rabbit");
@@ -35,7 +35,7 @@ public class Rabbit{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            isEating=false;
+            isEating = false;
             System.err.println("You stopped him");
         }
     }

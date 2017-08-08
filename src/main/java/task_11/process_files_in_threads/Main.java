@@ -1,8 +1,8 @@
 package task_11.process_files_in_threads;
 
-import org.junit.internal.RealSystem;
-
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class Main {
@@ -20,7 +20,6 @@ public class Main {
         //process data from outer list to result list
         //write output list
         String filename = "src/main/resources/test.txt";
-        ResourceBundle.getBundle("test.txt");
         File file = new File(filename);
         try {
             try (FileWriter fileWriter = new FileWriter(file)) {
@@ -46,7 +45,19 @@ public class Main {
             e.printStackTrace();
         }
 
+        File folderName = new File("src/main/resources/");
+        String fileExtension = ".csv";
+       File[] files = folderName.listFiles(new FilenameFilter() {
+           @Override
+           public boolean accept(File dir, String name) {
+               return name.toLowerCase().endsWith(fileExtension);
+           }
+       });
+        System.out.println(Arrays.toString(files));
+
+        ReportFilesGenerator reportFilesGenerator = new ReportFilesGenerator();
+        reportFilesGenerator.generateFiles();
+
+
     }
-
-
 }

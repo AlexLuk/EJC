@@ -55,7 +55,7 @@ public class Main {
        });
         System.out.println(Arrays.toString(files));
 
-        ReportFilesGenerator reportFilesGenerator = new ReportFilesGenerator();
+        ReportFilesGenerator reportFilesGenerator = new ReportFilesGenerator(2);
         reportFilesGenerator.generateFiles();
 
 

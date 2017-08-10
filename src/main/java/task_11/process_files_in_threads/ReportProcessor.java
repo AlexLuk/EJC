@@ -6,6 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * Class is designed to manage file-reading threads,
+ * to perform final file report assembly and output.
+ */
 public class ReportProcessor {
     private int threadsCounter = 0;
 
@@ -13,13 +17,21 @@ public class ReportProcessor {
         threadsCounter--;
     }
 
+    /**
+     * Manage file-reading threads
+     */
     void reportProcessing() {
         File folderName = new File(ResourceHolder.RESOURCE_FOLDER_PATH);
         String fileExtension = ResourceHolder.FILE_EXTENSION;
         File[] files = folderName.listFiles((dir, name) -> name.toLowerCase().endsWith(fileExtension));
         FileReaderThread fileReaderThread;
         EntriesHolder reportCreator = new EntriesHolder();
-        int filesToProcess = files.length;
+        int filesToProcess = 0;
+        if (files != null) {
+            filesToProcess = files.length;
+        } else {
+            return;
+        }
         int currentFileIndex = 0;
         while (currentFileIndex < filesToProcess) {
             if (threadsCounter < ResourceHolder.MAX_NUM_OF_THREADS) {
@@ -36,6 +48,11 @@ public class ReportProcessor {
         generateFinalReport(reportCreator);
     }
 
+    /**
+     * Get data from entriesHolder and generates final report file
+     *
+     * @param entriesHolder - entries data storage
+     */
     private void generateFinalReport(EntriesHolder entriesHolder) {
         File reportFile = new File(ResourceHolder.RESULT_FOLDER_PATH + ResourceHolder.REPORT_FILE_NAME + ResourceHolder.FILE_EXTENSION);
         try {

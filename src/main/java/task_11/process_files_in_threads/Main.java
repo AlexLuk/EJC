@@ -9,7 +9,7 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        ReportFilesGenerator reportFilesGenerator = new ReportFilesGenerator(15);
+        ReportFilesGenerator reportFilesGenerator = new ReportFilesGenerator(ResourceHolder.NUM_OF_FILES);
         reportFilesGenerator.generateFiles();
 
         ReportProcessor reportProcessor = new ReportProcessor();

@@ -1,21 +1,24 @@
 package task_11.process_files_in_threads;
 
+/**
+ * Class is designed to wrap information about user name
+ * and site name, and then use it as key in {@link EntriesHolder}
+ */
 public class UserSiteWrapper implements Comparable<UserSiteWrapper> {
     private String userName;
+    private String siteName;
 
-    public String getUserName() {
+    UserSiteWrapper(String userName, String siteName) {
+        this.userName = userName;
+        this.siteName = siteName;
+    }
+
+    String getUserName() {
         return userName;
     }
 
-    public String getSiteName() {
+    String getSiteName() {
         return siteName;
-    }
-
-    private String siteName;
-
-    public UserSiteWrapper(String userName, String siteName) {
-        this.userName = userName;
-        this.siteName = siteName;
     }
 
     @Override
@@ -44,13 +47,19 @@ public class UserSiteWrapper implements Comparable<UserSiteWrapper> {
 
     @Override
     public String toString() {
-        return userName+" "+siteName;
+        return userName + " " + siteName;
     }
 
+    /**
+     * Compare two objects
+     *
+     * @param other - other instance of {@link UserSiteWrapper}
+     * @return - result of comparation
+     */
     @Override
     public int compareTo(UserSiteWrapper other) {
         int comparation = userName.compareTo(other.userName);
-        if(comparation != 0) return comparation;
+        if (comparation != 0) return comparation;
         return siteName.compareTo(other.siteName);
     }
 }

@@ -4,6 +4,9 @@ package task_11.process_files_in_threads;
  * Class is designed to store list of constants for other classes
  */
 public class ResourceHolder {
+    //Main settings
+    public static final int NUM_OF_FILES = 30;
+
     //ReportProcessor settings
     static final String RESOURCE_FOLDER_PATH = "src\\main\\resources\\task_11\\";
     static final String RESULT_FOLDER_PATH = RESOURCE_FOLDER_PATH + "Result\\";
@@ -22,7 +25,7 @@ public class ResourceHolder {
     final static String REPORT_HEADER = "id,url,time,user\r\n";
     final static int NUM_OF_REPORT_FILES = 20;
     final static int MIN_REPORT_LENGTH = 10;
-    final static int MAX_REPORT_LENGTH = 20;
+    final static int MAX_REPORT_LENGTH = 100;
     final static int MIN_VISIT_DURATION = 4_000;
     final static int MAX_VISIT_DURATION = 100_000;
     final static int VISIT_DURATION_INTERVAL = MAX_VISIT_DURATION - MIN_VISIT_DURATION;

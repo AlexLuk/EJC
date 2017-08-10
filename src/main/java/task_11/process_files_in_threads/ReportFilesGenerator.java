@@ -5,19 +5,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ReportFilesGenerator {
-    private final static String SITE_NAMES_FILE = "Sites.txt";
-    private final static String USER_NAMES_FILE = "Names.txt";
-    private final static String REPORT_NAME_TEMPLATE = "report";
-    private final static String REPORT_HEADER = "id,url,time,user\r\n";
-    private final static int MIN_VISIT_DURATION = 4_000;
-    private final static int MAX_VISIT_DURATION = 100_000;
-    private static final int VISIT_DURATION_INTERVAL = MAX_VISIT_DURATION - MIN_VISIT_DURATION;
-
-    private final static int MIN_REPORT_LENGTH = 10;
-    private final static int MAX_REPORT_LENGTH = 20;
-    private String filesFolder = "src/main/resources/task_11";
-    private String filesExtension = ".csv";
-    private int numOfFiles = 20;
+    private String filesFolder = ResourceHolder.RESOURCE_FOLDER_PATH;
+    private String filesExtension = ResourceHolder.FILE_EXTENSION;
+    private int numOfFiles = ResourceHolder.NUM_OF_REPORT_FILES;
     private ArrayList<String> userNames;
     private ArrayList<String> siteNames;
 
@@ -41,14 +31,15 @@ public class ReportFilesGenerator {
     public int generateFiles() {
         int generatedFilesCounter = 0;
         Random randomizer = new Random();
-        loadConfigurationFile(filesFolder + "/" + USER_NAMES_FILE, userNames);
-        loadConfigurationFile(filesFolder + "/" + SITE_NAMES_FILE, siteNames);
-        while (generatedFilesCounter<numOfFiles) {
-            File file = new File(filesFolder + "/" + REPORT_NAME_TEMPLATE + generatedFilesCounter + filesExtension);
+        String generatorSettingsFolder = filesFolder + "/" + ResourceHolder.GENERATOR_FOLDER + "/";
+        loadConfigurationFile(generatorSettingsFolder + ResourceHolder.USER_NAMES_FILE, userNames);
+        loadConfigurationFile(generatorSettingsFolder + ResourceHolder.SITE_NAMES_FILE, siteNames);
+        while (generatedFilesCounter < numOfFiles) {
+            File file = new File(filesFolder + "/" + ResourceHolder.REPORT_NAME_TEMPLATE + generatedFilesCounter + filesExtension);
             try {
                 try (FileWriter fileWriter = new FileWriter(file)) {
-                    int numOfReportEntries = randomizer.nextInt(MAX_REPORT_LENGTH - MIN_REPORT_LENGTH) + MIN_REPORT_LENGTH;
-                    fileWriter.write(REPORT_HEADER);
+                    int numOfReportEntries = randomizer.nextInt(ResourceHolder.MAX_REPORT_LENGTH - ResourceHolder.MIN_REPORT_LENGTH) + ResourceHolder.MIN_REPORT_LENGTH;
+                    fileWriter.write(ResourceHolder.REPORT_HEADER);
                     for (int entryCounter = 0; entryCounter < numOfReportEntries; entryCounter++) {
                         StringBuilder entryString = getEntryString(randomizer, entryCounter);
                         fileWriter.write(entryString.toString());
@@ -74,7 +65,7 @@ public class ReportFilesGenerator {
         currentEntrySiteName = siteNames.get(randomizer.nextInt(siteNames.size()));
         entryString.append(currentEntrySiteName).append(",");
 
-        currentEntryVisitTime = randomizer.nextInt(VISIT_DURATION_INTERVAL) + MIN_VISIT_DURATION;
+        currentEntryVisitTime = randomizer.nextInt(ResourceHolder.VISIT_DURATION_INTERVAL) + ResourceHolder.MIN_VISIT_DURATION;
         entryString.append(currentEntryVisitTime).append(",");
 
         currentEntryUserName = userNames.get(randomizer.nextInt(userNames.size()));

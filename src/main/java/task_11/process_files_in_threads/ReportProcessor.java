@@ -11,19 +11,25 @@ import java.util.Arrays;
  * to perform final file report assembly and output.
  */
 public class ReportProcessor {
-    private int threadsCounter = 0;
-    private int processedFiles = 0;
+    private int runningThreadsCounter = 0;
+    private int processedFilesCounter = 0;
     private boolean suspendFlag = false;
 
+    /**
+     * Resumes thread from wait()
+     */
     synchronized void resumeThread() {
-        decreaseThreadCounter();
+        updateCounters();
         suspendFlag = false;
         this.notify();
     }
 
-    synchronized void decreaseThreadCounter() {
-        threadsCounter--;
-        processedFiles++;
+    /**
+     * Decreases thread counter and increases counter of processed files
+     */
+    synchronized void updateCounters() {
+        runningThreadsCounter--;
+        processedFilesCounter++;
     }
 
     /**
@@ -42,12 +48,13 @@ public class ReportProcessor {
             return;
         }
         int currentFileIndex = 0;
-        while (processedFiles < filesToProcess) {
-            if (threadsCounter < ResourceHolder.MAX_NUM_OF_THREADS && currentFileIndex < filesToProcess) {
+        while (processedFilesCounter < filesToProcess) {
+            if (runningThreadsCounter < ResourceHolder.MAX_NUM_OF_THREADS && currentFileIndex < filesToProcess) {
                 try {
                     fileReaderThread = new FileReaderThread(files[currentFileIndex].toString(), reportCreator, this);
                     fileReaderThread.start();
                     currentFileIndex++;
+                    runningThreadsCounter++;
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }

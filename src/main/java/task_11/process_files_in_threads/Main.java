@@ -1,5 +1,7 @@
 package task_11.process_files_in_threads;
 
+import java.util.Calendar;
+
 public class Main {
 
     /**
@@ -12,8 +14,13 @@ public class Main {
 //        ReportFilesGenerator reportFilesGenerator = new ReportFilesGenerator(ResourceHolder.NUM_OF_FILES);
 //        reportFilesGenerator.generateFiles();
 
-        ReportProcessor reportProcessor = new ReportProcessor();
-        reportProcessor.reportProcessing();
+        for (int i = 1; i < 5; i++) {
+            ResourceHolder.MAX_NUM_OF_THREADS = i;
+            long startTime = Calendar.getInstance().getTimeInMillis();
+            ReportProcessor reportProcessor = new ReportProcessor();
+            reportProcessor.reportProcessing();
+            System.out.println(ResourceHolder.MAX_NUM_OF_THREADS + " time worked " + (Calendar.getInstance().getTimeInMillis() - startTime));
+        }
     }
 
 }

@@ -12,9 +12,18 @@ import java.util.Arrays;
  */
 public class ReportProcessor {
     private int threadsCounter = 0;
+    private int processedFiles = 0;
+    private boolean suspendFlag = false;
+
+    synchronized void resumeThread() {
+        decreaseThreadCounter();
+        suspendFlag = false;
+        this.notify();
+    }
 
     synchronized void decreaseThreadCounter() {
         threadsCounter--;
+        processedFiles++;
     }
 
     /**
@@ -26,22 +35,31 @@ public class ReportProcessor {
         File[] files = folderName.listFiles((dir, name) -> name.toLowerCase().endsWith(fileExtension));
         FileReaderThread fileReaderThread;
         EntriesHolder reportCreator = new EntriesHolder();
-        int filesToProcess = 0;
+        int filesToProcess;
         if (files != null) {
             filesToProcess = files.length;
         } else {
             return;
         }
         int currentFileIndex = 0;
-        while (currentFileIndex < filesToProcess) {
-            if (threadsCounter < ResourceHolder.MAX_NUM_OF_THREADS) {
+        while (processedFiles < filesToProcess) {
+            if (threadsCounter < ResourceHolder.MAX_NUM_OF_THREADS && currentFileIndex < filesToProcess) {
                 try {
                     fileReaderThread = new FileReaderThread(files[currentFileIndex].toString(), reportCreator, this);
-                    fileReaderThread.run();
-                    System.out.println(files[currentFileIndex].toString());
+                    fileReaderThread.start();
                     currentFileIndex++;
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
+                }
+            } else {
+                synchronized (this) {
+                    while (suspendFlag) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         }

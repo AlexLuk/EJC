@@ -9,8 +9,8 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        ReportFilesGenerator reportFilesGenerator = new ReportFilesGenerator(ResourceHolder.NUM_OF_FILES);
-        reportFilesGenerator.generateFiles();
+//        ReportFilesGenerator reportFilesGenerator = new ReportFilesGenerator(ResourceHolder.NUM_OF_FILES);
+//        reportFilesGenerator.generateFiles();
 
         ReportProcessor reportProcessor = new ReportProcessor();
         reportProcessor.reportProcessing();

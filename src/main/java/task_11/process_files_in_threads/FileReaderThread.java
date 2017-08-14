@@ -52,7 +52,7 @@ public class FileReaderThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        reportProcessor.decreaseThreadCounter();
+        reportProcessor.resumeThread();
     }
 
     /**

@@ -5,7 +5,7 @@ package task_11.process_files_in_threads;
  */
 public class ResourceHolder {
     //Main settings
-    public static final int NUM_OF_FILES = 30;
+    public static final int NUM_OF_FILES = 20;
 
     //ReportProcessor settings
     static final String RESOURCE_FOLDER_PATH = "src\\main\\resources\\task_11\\";
@@ -23,7 +23,7 @@ public class ResourceHolder {
     final static String USER_NAMES_FILE = "Names.txt";
     final static String REPORT_NAME_TEMPLATE = "report";
     final static String REPORT_HEADER = "id,url,time,user\r\n";
-    final static int NUM_OF_REPORT_FILES = 20;
+    final static int NUM_OF_REPORT_FILES = 100;
     final static int MIN_REPORT_LENGTH = 10;
     final static int MAX_REPORT_LENGTH = 100;
     final static int MIN_VISIT_DURATION = 4_000;

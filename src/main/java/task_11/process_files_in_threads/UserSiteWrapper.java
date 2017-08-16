@@ -54,7 +54,7 @@ public class UserSiteWrapper implements Comparable<UserSiteWrapper> {
      * Compare two objects
      *
      * @param other - other instance of {@link UserSiteWrapper}
-     * @return - result of comparation
+     * @return - result of comparision
      */
     @Override
     public int compareTo(UserSiteWrapper other) {

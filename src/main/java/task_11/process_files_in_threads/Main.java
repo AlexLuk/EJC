@@ -7,7 +7,6 @@ public class Main {
     /**
      * Class is designed to start our application
      *
-     * @param args
      */
     public static void main(String[] args) {
 

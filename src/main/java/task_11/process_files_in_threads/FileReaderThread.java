@@ -22,7 +22,7 @@ public class FileReaderThread extends Thread {
 
     /**
      * Method is designed to read input file line after line
-     * For each readed line method parseString is called
+     * For each read line method parseString is called
      * Before finishing thread it decreases thread counter in
      * reportProcessor
      */
